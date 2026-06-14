@@ -1,0 +1,9 @@
+# OS / 임시 파일
+.DS_Store
+Thumbs.db
+~$*
+*_preview*.png
+*_chk*.png
+
+# Excel 임시 잠금 파일
+~$*.xlsx

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>두 아이 주간 시간표</title>
+<style>
+  :root{
+    --school:#3b82c4;--after:#4a9d3f;--academy:#e07b2e;--care:#d2a73a;--free:#9aa0a6;
+    --school-bg:#e8f1fb;--after-bg:#eaf6e7;--academy-bg:#fdeede;--care-bg:#fbf3da;
+    --c1:#2e8b57;--c2:#2f6fc0;--ink:#1f2328;--muted:#6b7280;--line:#e7e9ec;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',-apple-system,Arial,sans-serif;color:var(--ink);margin:0;background:#f4f5f7}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 12px 40px}
+  header h1{font-size:20px;margin:0 0 2px;font-weight:800}
+  header .date{color:var(--muted);font-size:13px;margin-bottom:12px}
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;position:sticky;top:0;background:#f4f5f7;z-index:5}
+  .tab{flex:0 0 auto;min-width:54px;text-align:center;padding:9px 4px;border-radius:12px;background:#fff;border:1px solid var(--line);font-weight:700;font-size:15px;cursor:pointer;color:#444}
+  .tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tab small{display:block;font-size:10px;font-weight:600;color:var(--muted);margin-top:1px}
+  .tab.on small{color:#cbd2da}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .col h2{margin:0;font-size:14px;font-weight:800;color:#fff;padding:8px 10px;border-radius:12px 12px 0 0;text-align:center}
+  .col.c1 h2{background:var(--c1)} .col.c2 h2{background:var(--c2)}
+  .stack{background:#fff;border:1px solid var(--line);border-top:none;border-radius:0 0 12px 12px;padding:8px;min-height:120px;display:flex;flex-direction:column;gap:7px}
+  .card{border-left:6px solid;border-radius:9px;padding:8px 9px;background:#fff}
+  .card .t{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.2px}
+  .card .n{font-size:14px;font-weight:800;margin-top:1px;line-height:1.2}
+  .card .p{font-size:11px;color:var(--muted);margin-top:2px}
+  .card .nt{font-size:11px;color:#b4530f;font-weight:700;margin-top:3px;line-height:1.3}
+  .card.school{border-color:var(--school);background:var(--school-bg)}
+  .card.after{border-color:var(--after);background:var(--after-bg)}
+  .card.academy{border-color:var(--academy);background:var(--academy-bg)}
+  .card.care{border-color:var(--care);background:var(--care-bg)}
+  .gap{display:flex;align-items:center;gap:6px;color:var(--free);font-size:11px;font-weight:700;padding:2px 4px}
+  .gap:before,.gap:after{content:"";flex:1;border-top:1px dashed #cfd4da}
+  .empty{color:var(--muted);font-size:12px;text-align:center;padding:24px 4px}
+  .sum{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .sumbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px}
+  .sumbox b{font-size:12px}
+  .sumbox .row{display:flex;justify-content:space-between;margin-top:5px;color:#333}
+  .sumbox .row span:first-child{color:var(--muted)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+  .legend span{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700}
+  .note{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.5}
+  .pbtn{margin-top:14px}
+  .pbtn button{font-size:13px;padding:8px 14px;border:1px solid #ccc;background:#fff;border-radius:10px;cursor:pointer;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>두 아이 주간 시간표</h1>
+  <div class="date">2026.03 · 요일을 눌러 확인하세요</div>
+</header>
+<div class="tabs" id="tabs"></div>
+<div class="cols">
+  <div class="col c1"><h2>첫째 · 초등</h2><div class="stack" id="s1"></div></div>
+  <div class="col c2"><h2>둘째 · 어린이집</h2><div class="stack" id="s2"></div></div>
+</div>
+<div class="sum" id="sum"></div>
+<div class="legend">
+  <span style="background:var(--school-bg);color:var(--school)">정규수업·어린이집</span>
+  <span style="background:var(--after-bg);color:var(--after)">방과후</span>
+  <span style="background:var(--academy-bg);color:var(--academy)">학원</span>
+  <span style="background:var(--care-bg);color:#9a7a10">이동·돌봄</span>
+</div>
+<div class="note" id="note"></div>
+<div class="pbtn"><button onclick="window.print()">🖨 인쇄 / PDF 저장</button></div>
+</div>
+<script>
+var DATA = [{"who": "첫째", "day": "월", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "13:50", "e": "15:20", "title": "방과후 회화미술", "cat": "after", "place": "학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "15:50", "e": "16:20", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "14:00", "e": "15:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "둘째와 함께 · 이모님(첫째 하교→둘째 하원→태권도)"}, {"who": "첫째", "day": "화", "s": "16:00", "e": "16:30", "title": "피아노", "cat": "academy", "place": "피아노학원", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "13:00", "e": "14:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "13:40", "e": "15:10", "title": "방과후 메이키메이커", "cat": "after", "place": "학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "17:10", "e": "17:40", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "12:50", "e": "14:20", "title": "방과후 종이접기", "cat": "after", "place": "학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "15:00", "e": "16:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "둘째와 함께 · 이모님(둘째 하원→첫째 하교→태권도)"}, {"who": "둘째", "day": "월", "s": "09:10", "e": "13:50", "title": "어린이집", "cat": "school", "place": "어린이집", "assumed": false, "note": ""}, {"who": "둘째", "day": "월", "s": "16:20", "e": "16:50", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "화", "s": "09:10", "e": "13:50", "title": "어린이집", "cat": "school", "place": "어린이집", "assumed": false, "note": "태권도 위해 일찍 하원 (확인 필요)"}, {"who": "둘째", "day": "화", "s": "14:00", "e": "15:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "첫째와 함께 · 이모님 픽업"}, {"who": "둘째", "day": "수", "s": "09:10", "e": "13:50", "title": "어린이집", "cat": "school", "place": "어린이집", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "16:30", "e": "17:00", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "목", "s": "09:10", "e": "13:50", "title": "어린이집", "cat": "school", "place": "어린이집", "assumed": false, "note": ""}, {"who": "둘째", "day": "금", "s": "09:10", "e": "13:50", "title": "어린이집", "cat": "school", "place": "어린이집", "assumed": false, "note": ""}, {"who": "둘째", "day": "금", "s": "15:00", "e": "16:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "첫째와 함께 · 이모님 픽업"}];
+var DAYS=["월","화","수","목","금"];
+var sel="월";
+function toMin(t){var a=t.split(":");return (+a[0])*60+(+a[1]);}
+function fmt(m){return ("0"+Math.floor(m/60)).slice(-2)+":"+("0"+(m%60)).slice(-2);}
+function dur(m){var h=Math.floor(m/60),mm=m%60;return ((h?h+"시간":"")+(mm?" "+mm+"분":"")).trim()||"0분";}
+function tabs(){
+  var t=document.getElementById("tabs");t.innerHTML="";
+  DAYS.forEach(function(d){
+    var n=DATA.filter(function(x){return x.day===d;}).length;
+    var el=document.createElement("div");
+    el.className="tab"+(d===sel?" on":"");
+    el.innerHTML=d+"<small>"+n+"개</small>";
+    el.onclick=function(){sel=d;render();};
+    t.appendChild(el);
+  });
+}
+function colHtml(who,target){
+  var box=document.getElementById(target);box.innerHTML="";
+  var it=DATA.filter(function(x){return x.day===sel&&x.who===who;})
+            .map(function(x){return {a:x,sm:toMin(x.s),em:toMin(x.e)};})
+            .sort(function(a,b){return a.sm-b.sm;});
+  if(!it.length){box.innerHTML='<div class="empty">일정 없음</div>';return;}
+  var prevEnd=null;
+  it.forEach(function(o){
+    if(prevEnd!==null && o.sm-prevEnd>=30){
+      var g=document.createElement("div");g.className="gap";g.textContent="빈 시간 "+dur(o.sm-prevEnd);box.appendChild(g);
+    }
+    var c=document.createElement("div");c.className="card "+o.a.cat;
+    var place=(o.a.cat==="academy"||o.a.cat==="after")&&o.a.place?'<div class="p">'+o.a.place+'</div>':"";
+    var nt=o.a.note?'<div class="nt">'+o.a.note+'</div>':"";
+    c.innerHTML='<div class="t">'+o.a.s+' – '+o.a.e+'</div><div class="n">'+o.a.title+'</div>'+place+nt;
+    box.appendChild(c);
+    prevEnd=Math.max(prevEnd||0,o.em);
+  });
+}
+function summary(){
+  var s=document.getElementById("sum");s.innerHTML="";
+  [["첫째","첫째 · 초등"],["둘째","둘째 · 어린이집"]].forEach(function(w){
+    var it=DATA.filter(function(x){return x.day===sel&&x.who===w[0];}).map(function(x){return {sm:toMin(x.s),em:toMin(x.e),cat:x.cat};});
+    var box=document.createElement("div");box.className="sumbox";
+    if(!it.length){box.innerHTML="<b>"+w[1]+"</b><div class='row'><span>일정</span><span>없음</span></div>";s.appendChild(box);return;}
+    var f=Math.min.apply(0,it.map(function(x){return x.sm;})),l=Math.max.apply(0,it.map(function(x){return x.em;}));
+    var aca=it.filter(function(x){return x.cat==="academy";}).reduce(function(a,x){return a+(x.em-x.sm);},0);
+    box.innerHTML="<b>"+w[1]+"</b>"+
+      "<div class='row'><span>하루 시작</span><span>"+fmt(f)+"</span></div>"+
+      "<div class='row'><span>마지막 종료</span><span>"+fmt(l)+"</span></div>"+
+      "<div class='row'><span>학원 시간</span><span>"+(aca?dur(aca):"-")+"</span></div>";
+    s.appendChild(box);
+  });
+}
+function render(){tabs();colHtml("첫째","s1");colHtml("둘째","s2");summary();}
+render();
+document.getElementById("note").innerHTML="화·금 태권도는 첫째·둘째가 이모님 픽업으로 함께 이동합니다. (화요일 둘째 어린이집 하원 시간은 확인 필요)";
+</script>
+</body>
+</html>
