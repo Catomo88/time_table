@@ -21,19 +21,28 @@
   .req{background:#fff;border:1px solid #e7e9ec;border-radius:16px;padding:18px;margin-top:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
   .req h2{font-size:16px;font-weight:800;margin:0 0 4px}
   .req p{font-size:12.5px;color:#6b7280;margin:0 0 10px;line-height:1.5}
-  .req textarea{width:100%;min-height:84px;border:1px solid #d7dbe0;border-radius:12px;padding:11px 12px;font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box}
-  .req textarea:focus{outline:2px solid #2f6fc0;border-color:#2f6fc0}
-  .req .btn{margin-top:10px;width:100%;font-size:15px;font-weight:800;padding:12px;border:none;border-radius:12px;background:#2e8b57;color:#fff;cursor:pointer}
-  .req .btn:active{transform:scale(.99)}
-  .req .ok{color:#2e8b57;font-size:13px;font-weight:700;margin-top:8px;display:none}
+  .req textarea{width:100%;min-height:80px;border:1px solid #d7dbe0;border-radius:12px;padding:11px 12px;font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box}
+  .req textarea:focus,.req input:focus{outline:2px solid #2f6fc0;border-color:#2f6fc0}
+  .btnrow{display:flex;gap:8px;margin-top:10px}
+  .btn{flex:1;font-size:15px;font-weight:800;padding:12px;border:none;border-radius:12px;cursor:pointer}
+  .btn-main{background:#2e8b57;color:#fff}
+  .btn-sub{background:#eef1f4;color:#333;flex:0 0 auto;padding:12px 14px}
+  .btn:active{transform:scale(.99)}
+  .msg{font-size:13px;font-weight:700;margin-top:9px;min-height:18px}
+  .msg.ok{color:#2e8b57} .msg.err{color:#c0392b} .msg.info{color:#6b7280}
+  details{margin-top:12px;border-top:1px solid #eef0f2;padding-top:10px}
+  summary{font-size:12.5px;color:#2f6fc0;cursor:pointer;font-weight:700}
+  .tokrow{display:flex;gap:8px;margin-top:9px}
+  .tokrow input{flex:1;border:1px solid #d7dbe0;border-radius:10px;padding:9px 10px;font-size:13px}
+  .tokrow button{font-size:13px;font-weight:700;border:1px solid #2e8b57;background:#fff;color:#2e8b57;border-radius:10px;padding:0 12px;cursor:pointer}
+  .help{font-size:11.5px;color:#9aa0a6;line-height:1.6;margin-top:8px}
+  .help a{color:#2f6fc0}
   .ex{font-size:12px;color:#6b7280;margin-top:10px;line-height:1.6}
   .ex b{color:#1f2328}
   .hist{margin-top:14px}
   .hist .ht{font-size:12px;color:#6b7280;font-weight:700;margin-bottom:6px}
-  .hist .item{font-size:12.5px;background:#f6f7f9;border:1px solid #eceef1;border-radius:10px;padding:8px 10px;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-  .hist .item .tx{flex:1;color:#333}
-  .hist .item .dt{color:#9aa0a6;font-size:11px;white-space:nowrap}
-  .hist .item button{font-size:11px;border:1px solid #d7dbe0;background:#fff;border-radius:7px;padding:3px 7px;cursor:pointer}
+  .hist .item{font-size:12.5px;background:#f6f7f9;border:1px solid #eceef1;border-radius:10px;padding:8px 10px;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+  .hist .item .tx{flex:1;color:#333} .hist .item .dt{color:#9aa0a6;font-size:11px;white-space:nowrap}
   .foot{font-size:12px;color:#9aa0a6;margin-top:20px;text-align:center}
 </style>
 </head>
@@ -42,65 +51,80 @@
   <h1>우리 아이 주간 시간표</h1>
   <div class="sub">2026.03 · 보고 싶은 화면을 누르세요</div>
 
-  <a class="card b1" href="시간표_대시보드.html">
-    <div class="ic">📱</div>
-    <div class="ti">요일별 보기</div>
-    <div class="ds">요일 탭을 눌러 첫째·둘째를 큰 카드로. 휴대폰에서 보기 좋아요.</div>
-  </a>
-  <a class="card b2" href="시간표_주간전체.html">
-    <div class="ic">🗓️</div>
-    <div class="ti">주간 전체 보기</div>
-    <div class="ds">한 주를 한눈에. 첫째(초록)·둘째(파랑) 색으로 구분.</div>
-  </a>
-  <a class="card b3" href="시간표.xlsx">
-    <div class="ic">🖨️</div>
-    <div class="ti">인쇄용 엑셀 내려받기</div>
-    <div class="ds">요일×시간 타임테이블. 가로 1페이지 인쇄용.</div>
-  </a>
+  <a class="card b1" href="시간표_대시보드.html"><div class="ic">📱</div><div class="ti">요일별 보기</div><div class="ds">요일 탭을 눌러 첫째·둘째를 큰 카드로. 휴대폰에서 보기 좋아요.</div></a>
+  <a class="card b2" href="시간표_주간전체.html"><div class="ic">🗓️</div><div class="ti">주간 전체 보기</div><div class="ds">한 주를 한눈에. 첫째(초록)·둘째(파랑) 색으로 구분.</div></a>
+  <a class="card b3" href="시간표.xlsx"><div class="ic">🖨️</div><div class="ti">인쇄용 엑셀 내려받기</div><div class="ds">요일×시간 타임테이블. 가로 1페이지 인쇄용.</div></a>
 
   <div class="req">
     <h2>✏️ 시간표 변경 요청</h2>
-    <p>바뀐 내용을 평소 말하듯 적고 <b>복사</b>를 누르세요. 복사한 내용을 Claude(코워크)에 붙여넣으면 분석해서 엑셀·웹·GitHub에 반영해 드려요.</p>
-    <textarea id="req" placeholder="예) 목요일 수학학원 5시부터 1시간 추가&#10;예) 금요일 태권도 취소&#10;예) 둘째 화요일 어린이집 하원 2시로 변경"></textarea>
-    <button class="btn" onclick="copyReq()">📋 변경 요청 복사하기</button>
-    <div class="ok" id="ok">복사됐어요! Claude 코워크 창에 붙여넣어 주세요.</div>
-    <div class="ex">
-      <b>이렇게 적으면 좋아요</b><br>
-      · 누가(첫째/둘째) · 무슨 요일 · 무슨 활동 · 몇 시부터 몇 분/몇 시간 · 추가/변경/취소
+    <p>바뀐 내용을 평소 말하듯 적고 <b>보내기</b>를 누르면 자동으로 접수돼요. 다음에 Claude가 읽어서 엑셀·웹에 반영합니다.</p>
+    <textarea id="req" placeholder="예) 목요일 수학학원 5시부터 1시간 추가&#10;예) 금요일 태권도 취소&#10;예) 둘째 수요일 하원 2시 반으로 변경"></textarea>
+    <div class="btnrow">
+      <button class="btn btn-main" onclick="sendReq()">📨 보내기</button>
+      <button class="btn btn-sub" onclick="copyReq()" title="복사해서 직접 전달">복사</button>
     </div>
+    <div class="msg info" id="msg"></div>
+
+    <details id="setup">
+      <summary>⚙️ 처음 한 번 설정 (GitHub 토큰)</summary>
+      <div class="tokrow">
+        <input type="password" id="tok" placeholder="github_pat_... 토큰 붙여넣기" autocomplete="off">
+        <button onclick="saveTok()">저장</button>
+      </div>
+      <div class="help">
+        이 기기에만 저장되며 다른 사람에게 보이지 않아요. 전용 토큰 권장:
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">Fine-grained token</a> →
+        저장소 <b>Catomo88/time_table</b> 하나만, 권한 <b>Contents: Read and write</b>.
+        언제든 GitHub에서 폐기 가능. <span id="tokstate"></span>
+      </div>
+    </details>
+
+    <div class="ex"><b>이렇게 적으면 좋아요</b><br>· 누가(첫째/둘째) · 무슨 요일 · 무슨 활동 · 몇 시부터 몇 분/몇 시간 · 추가/변경/취소</div>
     <div class="hist" id="hist"></div>
   </div>
 
   <div class="foot">화·금 태권도는 첫째·둘째가 이모님 픽업으로 함께 이동</div>
 </div>
 <script>
-var KEY="ttbl_requests";
-function load(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
-function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
+var GH={owner:"Catomo88",repo:"time_table",path:"requests.json",branch:"main"};
+var TKEY="ttbl_gh_token", HKEY="ttbl_requests";
+function el(id){return document.getElementById(id)}
+function setMsg(t,c){var m=el("msg");m.textContent=t;m.className="msg "+(c||"info")}
 function stamp(){var d=new Date();return (d.getMonth()+1)+"/"+d.getDate()+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)}
-function render(){
-  var h=document.getElementById("hist"),a=load();
-  if(!a.length){h.innerHTML="";return}
-  var html='<div class="ht">최근 요청 (참고용 · 이 기기에만 저장)</div>';
-  a.slice().reverse().forEach(function(it){
-    html+='<div class="item"><div class="tx">'+it.t.replace(/</g,"&lt;")+'</div><div class="dt">'+it.d+'</div><button onclick="copyText(this.parentNode.querySelector(\'.tx\').textContent)">복사</button></div>';
-  });
-  h.innerHTML=html;
+function b64e(str){return btoa(unescape(encodeURIComponent(str)))}
+function b64d(str){return decodeURIComponent(escape(atob(str.replace(/\n/g,""))))}
+function loadHist(){try{return JSON.parse(localStorage.getItem(HKEY)||"[]")}catch(e){return[]}}
+function saveHist(a){localStorage.setItem(HKEY,JSON.stringify(a))}
+function renderHist(){var h=el("hist"),a=loadHist();if(!a.length){h.innerHTML="";return}
+  var s='<div class="ht">최근 요청 (이 기기 저장)</div>';
+  a.slice().reverse().forEach(function(it){s+='<div class="item"><div class="tx">'+(it.sent?"✅ ":"")+it.t.replace(/</g,"&lt;")+'</div><div class="dt">'+it.d+'</div></div>'});
+  h.innerHTML=s}
+function saveTok(){var v=el("tok").value.trim();if(!v){return}localStorage.setItem(TKEY,v);el("tok").value="";el("tokstate").textContent="— 저장됨 ✅";setMsg("토큰이 저장됐어요. 이제 보내기를 쓸 수 있어요.","ok")}
+function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t)}else{var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");document.body.removeChild(a)}}
+function copyReq(){var t=el("req").value.trim();if(!t){el("req").focus();return}copyText("[시간표 변경 요청 · "+stamp()+"]\n"+t);setMsg("복사됐어요. Claude 코워크에 붙여넣어 주세요.","ok")}
+function pushHist(t,sent){var a=loadHist();a.push({t:t,d:stamp(),sent:sent});if(a.length>20)a=a.slice(-20);saveHist(a);renderHist()}
+async function sendReq(){
+  var t=el("req").value.trim();if(!t){el("req").focus();return}
+  var tok=localStorage.getItem(TKEY);
+  if(!tok){el("setup").open=true;setMsg("먼저 아래 ⚙️ 설정에서 GitHub 토큰을 한 번 저장해 주세요. (또는 '복사' 사용)","err");return}
+  setMsg("보내는 중…","info");
+  try{
+    var url="https://api.github.com/repos/"+GH.owner+"/"+GH.repo+"/contents/"+GH.path;
+    var H={"Authorization":"Bearer "+tok,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+    var sha=null,arr=[];
+    var g=await fetch(url+"?ref="+GH.branch+"&t="+Date.now(),{headers:H});
+    if(g.status===200){var j=await g.json();sha=j.sha;try{arr=JSON.parse(b64d(j.content))}catch(e){arr=[]}}
+    else if(g.status===401||g.status===403){setMsg("토큰이 올바르지 않거나 권한이 없어요. 설정을 확인해 주세요.","err");return}
+    arr.push({time:new Date().toISOString(),local:stamp(),text:t,done:false});
+    var body={message:"시간표 변경 요청: "+t.slice(0,50),content:b64e(JSON.stringify(arr,null,2)),branch:GH.branch};
+    if(sha)body.sha=sha;
+    var p=await fetch(url,{method:"PUT",headers:H,body:JSON.stringify(body)});
+    if(p.ok){setMsg("✅ 접수됐어요! 다음에 Claude가 읽어서 반영해요.","ok");pushHist(t,true);el("req").value=""}
+    else{var e=await p.json().catch(function(){return{}});setMsg("보내기 실패: "+(e.message||p.status)+". '복사'로 대신 전달해 주세요.","err")}
+  }catch(err){setMsg("네트워크 오류로 못 보냈어요. '복사'로 전달해 주세요.","err")}
 }
-function fmtMsg(t){return "[시간표 변경 요청 · "+stamp()+"]\n"+t+"\n\n(위 내용을 분석해서 엑셀·요일별·주간전체·GitHub에 반영해 주세요.)";}
-function copyText(t){
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t)}
-  else{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta)}
-}
-function copyReq(){
-  var t=document.getElementById("req").value.trim();
-  if(!t){document.getElementById("req").focus();return}
-  copyText(fmtMsg(t));
-  var a=load();a.push({t:t,d:stamp()});if(a.length>20)a=a.slice(-20);save(a);render();
-  var ok=document.getElementById("ok");ok.style.display="block";setTimeout(function(){ok.style.display="none"},3500);
-  document.getElementById("req").value="";
-}
-render();
+if(localStorage.getItem(TKEY)){el("tokstate").textContent="— 저장됨 ✅"}
+renderHist();
 </script>
 </body>
 </html>
