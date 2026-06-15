@@ -12,13 +12,29 @@
   .wrap{max-width:560px;margin:0 auto;padding:28px 16px 48px}
   h1{font-size:23px;margin:0 0 4px;font-weight:800}
   .sub{color:#6b7280;font-size:14px;margin-bottom:22px}
-  a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e7e9ec;border-radius:16px;padding:18px 18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:.15s}
+  a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e7e9ec;border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:.15s}
   a.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.09);transform:translateY(-1px)}
   .card .ic{font-size:26px;margin-bottom:6px}
   .card .ti{font-size:17px;font-weight:800}
   .card .ds{font-size:13px;color:#6b7280;margin-top:3px;line-height:1.45}
   .b1{border-left:6px solid #2e8b57} .b2{border-left:6px solid #2f6fc0} .b3{border-left:6px solid #e07b2e}
-  .foot{font-size:12px;color:#9aa0a6;margin-top:18px;text-align:center}
+  .req{background:#fff;border:1px solid #e7e9ec;border-radius:16px;padding:18px;margin-top:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .req h2{font-size:16px;font-weight:800;margin:0 0 4px}
+  .req p{font-size:12.5px;color:#6b7280;margin:0 0 10px;line-height:1.5}
+  .req textarea{width:100%;min-height:84px;border:1px solid #d7dbe0;border-radius:12px;padding:11px 12px;font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box}
+  .req textarea:focus{outline:2px solid #2f6fc0;border-color:#2f6fc0}
+  .req .btn{margin-top:10px;width:100%;font-size:15px;font-weight:800;padding:12px;border:none;border-radius:12px;background:#2e8b57;color:#fff;cursor:pointer}
+  .req .btn:active{transform:scale(.99)}
+  .req .ok{color:#2e8b57;font-size:13px;font-weight:700;margin-top:8px;display:none}
+  .ex{font-size:12px;color:#6b7280;margin-top:10px;line-height:1.6}
+  .ex b{color:#1f2328}
+  .hist{margin-top:14px}
+  .hist .ht{font-size:12px;color:#6b7280;font-weight:700;margin-bottom:6px}
+  .hist .item{font-size:12.5px;background:#f6f7f9;border:1px solid #eceef1;border-radius:10px;padding:8px 10px;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+  .hist .item .tx{flex:1;color:#333}
+  .hist .item .dt{color:#9aa0a6;font-size:11px;white-space:nowrap}
+  .hist .item button{font-size:11px;border:1px solid #d7dbe0;background:#fff;border-radius:7px;padding:3px 7px;cursor:pointer}
+  .foot{font-size:12px;color:#9aa0a6;margin-top:20px;text-align:center}
 </style>
 </head>
 <body>
@@ -31,20 +47,60 @@
     <div class="ti">요일별 보기</div>
     <div class="ds">요일 탭을 눌러 첫째·둘째를 큰 카드로. 휴대폰에서 보기 좋아요.</div>
   </a>
-
   <a class="card b2" href="시간표_주간전체.html">
     <div class="ic">🗓️</div>
     <div class="ti">주간 전체 보기</div>
     <div class="ds">한 주를 한눈에. 첫째(초록)·둘째(파랑) 색으로 구분.</div>
   </a>
-
   <a class="card b3" href="시간표.xlsx">
     <div class="ic">🖨️</div>
     <div class="ti">인쇄용 엑셀 내려받기</div>
     <div class="ds">요일×시간 타임테이블. 가로 1페이지 인쇄용.</div>
   </a>
 
+  <div class="req">
+    <h2>✏️ 시간표 변경 요청</h2>
+    <p>바뀐 내용을 평소 말하듯 적고 <b>복사</b>를 누르세요. 복사한 내용을 Claude(코워크)에 붙여넣으면 분석해서 엑셀·웹·GitHub에 반영해 드려요.</p>
+    <textarea id="req" placeholder="예) 목요일 수학학원 5시부터 1시간 추가&#10;예) 금요일 태권도 취소&#10;예) 둘째 화요일 어린이집 하원 2시로 변경"></textarea>
+    <button class="btn" onclick="copyReq()">📋 변경 요청 복사하기</button>
+    <div class="ok" id="ok">복사됐어요! Claude 코워크 창에 붙여넣어 주세요.</div>
+    <div class="ex">
+      <b>이렇게 적으면 좋아요</b><br>
+      · 누가(첫째/둘째) · 무슨 요일 · 무슨 활동 · 몇 시부터 몇 분/몇 시간 · 추가/변경/취소
+    </div>
+    <div class="hist" id="hist"></div>
+  </div>
+
   <div class="foot">화·금 태권도는 첫째·둘째가 이모님 픽업으로 함께 이동</div>
 </div>
+<script>
+var KEY="ttbl_requests";
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
+function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
+function stamp(){var d=new Date();return (d.getMonth()+1)+"/"+d.getDate()+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)}
+function render(){
+  var h=document.getElementById("hist"),a=load();
+  if(!a.length){h.innerHTML="";return}
+  var html='<div class="ht">최근 요청 (참고용 · 이 기기에만 저장)</div>';
+  a.slice().reverse().forEach(function(it){
+    html+='<div class="item"><div class="tx">'+it.t.replace(/</g,"&lt;")+'</div><div class="dt">'+it.d+'</div><button onclick="copyText(this.parentNode.querySelector(\'.tx\').textContent)">복사</button></div>';
+  });
+  h.innerHTML=html;
+}
+function fmtMsg(t){return "[시간표 변경 요청 · "+stamp()+"]\n"+t+"\n\n(위 내용을 분석해서 엑셀·요일별·주간전체·GitHub에 반영해 주세요.)";}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t)}
+  else{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta)}
+}
+function copyReq(){
+  var t=document.getElementById("req").value.trim();
+  if(!t){document.getElementById("req").focus();return}
+  copyText(fmtMsg(t));
+  var a=load();a.push({t:t,d:stamp()});if(a.length>20)a=a.slice(-20);save(a);render();
+  var ok=document.getElementById("ok");ok.style.display="block";setTimeout(function(){ok.style.display="none"},3500);
+  document.getElementById("req").value="";
+}
+render();
+</script>
 </body>
 </html>
