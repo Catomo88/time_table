@@ -372,16 +372,5 @@
   "place": "온라인",
   "assumed": false,
   "note": ""
- },
- {
-  "who": "첫째",
-  "day": "일",
-  "s": "17:00",
-  "e": "17:30",
-  "title": "테스트수업",
-  "cat": "학원",
-  "place": "미정",
-  "assumed": false,
-  "note": ""
  }
 ]
