@@ -372,5 +372,16 @@
   "place": "온라인",
   "assumed": false,
   "note": ""
+ },
+ {
+  "who": "둘째",
+  "day": "토",
+  "s": "10:00",
+  "e": "11:00",
+  "title": "발레",
+  "cat": "학원",
+  "place": "",
+  "assumed": false,
+  "note": ""
  }
 ]
