@@ -22,5 +22,46 @@
     }
    }
   ]
+ },
+ {
+  "time": "2026-07-03 05:44",
+  "requests": [
+   "목요일 둘째 축구 시간을 토요일 오전 9시 20분으로 영구적으로 바꿔줘."
+  ],
+  "base": {
+   "added": 1,
+   "removed": 1,
+   "updated": 0
+  },
+  "week": {
+   "key": "2026-06-29",
+   "ops": 0
+  },
+  "ops": [
+   {
+    "op": "remove",
+    "scope": "base",
+    "match": {
+     "who": "둘째",
+     "day": "목",
+     "title": "축구"
+    }
+   },
+   {
+    "op": "add",
+    "scope": "base",
+    "item": {
+     "who": "둘째",
+     "day": "토",
+     "s": "09:20",
+     "e": "09:50",
+     "title": "축구",
+     "cat": "학원",
+     "place": "축구교실",
+     "assumed": true,
+     "note": "추정"
+    }
+   }
+  ]
  }
 ]
