@@ -1,25 +1,255 @@
 {
- "2026-07-06": [
+ "2026-07-20": [
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "월",
+    "title": "등교"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "월",
+    "title": "정규수업"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "월",
+    "title": "방과후 회화미술"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "화",
+    "title": "등교"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "화",
+    "title": "정규수업"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "수",
+    "title": "등교"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "수",
+    "title": "정규수업(단축)"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "목",
+    "title": "등교"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "목",
+    "title": "정규수업"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "목",
+    "title": "방과후 메이키메이커"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "목",
+    "title": "한글수업"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "금",
+    "title": "등교"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "금",
+    "title": "정규수업(단축)"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "금",
+    "title": "방과후 종이접기"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "금",
+    "title": "미술학원"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "금",
+    "title": "태권도"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "금",
+    "title": "화상영어"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "토",
+    "title": "댄스학원"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "일",
+    "title": "수영"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "월",
+    "title": "한글수업"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "화",
+    "title": "태권도"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "화",
+    "title": "피아노"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "화",
+    "title": "화상영어"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "수",
+    "title": "태권도"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "첫째",
+    "day": "수",
+    "title": "첼로"
+   }
+  },
   {
    "op": "remove",
    "match": {
     "who": "둘째",
-    "day": "토",
-    "title": "축구"
+    "day": "목",
+    "title": "어린이집"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "둘째",
+    "day": "금",
+    "title": "어린이집"
+   }
+  },
+  {
+   "op": "remove",
+   "match": {
+    "who": "둘째",
+    "day": "금",
+    "title": "태권도"
+   }
+  },
+  {
+   "op": "add",
+   "item": {
+    "who": "첫째",
+    "day": "금",
+    "s": "18:00",
+    "e": "20:00",
+    "title": "한나네 식사",
+    "cat": "기타",
+    "place": "한나네",
+    "assumed": true,
+    "note": "둘째와 함께 · 종료시간 추정"
    }
   },
   {
    "op": "add",
    "item": {
     "who": "둘째",
-    "day": "일",
-    "s": "17:00",
-    "e": "17:30",
-    "title": "축구",
-    "cat": "학원",
-    "place": "축구교실",
+    "day": "금",
+    "s": "18:00",
+    "e": "20:00",
+    "title": "한나네 식사",
+    "cat": "기타",
+    "place": "한나네",
     "assumed": true,
-    "note": "추정"
+    "note": "첫째와 함께 · 종료시간 추정"
    }
   }
  ]

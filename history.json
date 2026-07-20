@@ -128,5 +128,304 @@
     }
    }
   ]
+ },
+ {
+  "time": "2026-07-20 03:31",
+  "requests": [
+   "8월 일정\n7월 21일부터 8월 19일까지 학교 여름방학\n1일 -10일 첫째 오사카 영어캠프\n15-17은 둔내\n22일은 준원이 생파 및 물놀이고\n23일 오후 6시 한나네 식사\n29일 다영이네랑 충청도"
+  ],
+  "base": {
+   "added": 0,
+   "removed": 0,
+   "updated": 0
+  },
+  "week": {
+   "key": "2026-07-20",
+   "ops": 30
+  },
+  "ops": [
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "월",
+     "title": "등교"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "월",
+     "title": "정규수업"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "월",
+     "title": "방과후 회화미술"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "화",
+     "title": "등교"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "화",
+     "title": "정규수업"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "수",
+     "title": "등교"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "수",
+     "title": "정규수업(단축)"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "목",
+     "title": "등교"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "목",
+     "title": "정규수업"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "목",
+     "title": "방과후 메이키메이커"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "목",
+     "title": "한글수업"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "금",
+     "title": "등교"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "금",
+     "title": "정규수업(단축)"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "금",
+     "title": "방과후 종이접기"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "금",
+     "title": "미술학원"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "금",
+     "title": "태권도"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "금",
+     "title": "화상영어"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "토",
+     "title": "댄스학원"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "일",
+     "title": "수영"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "월",
+     "title": "한글수업"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "화",
+     "title": "태권도"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "화",
+     "title": "피아노"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "화",
+     "title": "화상영어"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "수",
+     "title": "태권도"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "첫째",
+     "day": "수",
+     "title": "첼로"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "둘째",
+     "day": "목",
+     "title": "어린이집"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "둘째",
+     "day": "금",
+     "title": "어린이집"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "week",
+    "match": {
+     "who": "둘째",
+     "day": "금",
+     "title": "태권도"
+    }
+   },
+   {
+    "op": "add",
+    "scope": "week",
+    "item": {
+     "who": "첫째",
+     "day": "금",
+     "s": "18:00",
+     "e": "20:00",
+     "title": "한나네 식사",
+     "cat": "기타",
+     "place": "한나네",
+     "assumed": true,
+     "note": "둘째와 함께 · 종료시간 추정"
+    }
+   },
+   {
+    "op": "add",
+    "scope": "week",
+    "item": {
+     "who": "둘째",
+     "day": "금",
+     "s": "18:00",
+     "e": "20:00",
+     "title": "한나네 식사",
+     "cat": "기타",
+     "place": "한나네",
+     "assumed": true,
+     "note": "첫째와 함께 · 종료시간 추정"
+    }
+   }
+  ]
  }
 ]
