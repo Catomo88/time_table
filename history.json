@@ -453,5 +453,92 @@
     }
    }
   ]
+ },
+ {
+  "time": "2026-08-25 10:15",
+  "requests": [
+   "둘째가 이제 유치원에 가. 유치원으로 바꿔주고 월화수목금 하교 시간을 15시 10분으로 해줘."
+  ],
+  "base": {
+   "added": 0,
+   "removed": 0,
+   "updated": 5
+  },
+  "week": {
+   "key": "2026-08-24",
+   "ops": 0
+  },
+  "ops": [
+   {
+    "op": "update",
+    "scope": "base",
+    "match": {
+     "who": "둘째",
+     "day": "월",
+     "title": "어린이집"
+    },
+    "set": {
+     "title": "유치원",
+     "place": "유치원",
+     "e": "15:10"
+    }
+   },
+   {
+    "op": "update",
+    "scope": "base",
+    "match": {
+     "who": "둘째",
+     "day": "화",
+     "title": "어린이집"
+    },
+    "set": {
+     "title": "유치원",
+     "place": "유치원",
+     "e": "15:10"
+    }
+   },
+   {
+    "op": "update",
+    "scope": "base",
+    "match": {
+     "who": "둘째",
+     "day": "수",
+     "title": "어린이집"
+    },
+    "set": {
+     "title": "유치원",
+     "place": "유치원",
+     "e": "15:10"
+    }
+   },
+   {
+    "op": "update",
+    "scope": "base",
+    "match": {
+     "who": "둘째",
+     "day": "목",
+     "title": "어린이집"
+    },
+    "set": {
+     "title": "유치원",
+     "place": "유치원",
+     "e": "15:10"
+    }
+   },
+   {
+    "op": "update",
+    "scope": "base",
+    "match": {
+     "who": "둘째",
+     "day": "금",
+     "title": "어린이집"
+    },
+    "set": {
+     "title": "유치원",
+     "place": "유치원",
+     "e": "15:10"
+    }
+   }
+  ]
  }
 ]
