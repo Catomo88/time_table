@@ -757,5 +757,40 @@
     }
    }
   ]
+ },
+ {
+  "time": "2026-08-27 23:50",
+  "requests": [
+   "서원이\n월요일 방과후 회화미술은 빼주고\n수요일 태권도도 빼줘"
+  ],
+  "base": {
+   "added": 0,
+   "removed": 2,
+   "updated": 0
+  },
+  "week": {
+   "key": "2026-08-24",
+   "ops": 0
+  },
+  "ops": [
+   {
+    "op": "remove",
+    "scope": "base",
+    "match": {
+     "who": "첫째",
+     "day": "월",
+     "title": "방과후 회화미술"
+    }
+   },
+   {
+    "op": "remove",
+    "scope": "base",
+    "match": {
+     "who": "첫째",
+     "day": "수",
+     "title": "태권도"
+    }
+   }
+  ]
  }
 ]
