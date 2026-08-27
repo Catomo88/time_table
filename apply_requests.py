@@ -32,6 +32,7 @@ prompt = (
 '- {"op":"remove","scope":"base|week","match":{"who":..,"day":..,"title":..}}   (휴강·취소)\n'
 '- {"op":"update","scope":"base|week","match":{"who":..,"day":..,"title":..},"set":{바꿀 필드만}}\n'
 "규칙: 어린이집·학교수업=cat \"정규수업\", 사교육=cat \"학원\". 끝시간 불명이면 30~60분으로 잡고 assumed=true, note=\"추정\".\n"
+"학교 안 수업은 cat \"방과후\"로 하되, 유료면 title을 \"방과후 OO\"·note \"유료\", 무료면 title을 \"맞춤형 OO\"·note \"무료\"로 구분하세요.\n"
 "요청과 무관한 항목은 연산에 넣지 마세요. 출력은 JSON 배열만.\n\n"
 "현재 기본 시간표:\n" + json.dumps(sched, ensure_ascii=False) + "\n\n"
 "변경 요청 목록:\n" + json.dumps([p["text"] for p in pending], ensure_ascii=False)
