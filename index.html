@@ -82,6 +82,10 @@ summary{font-size:12px;color:var(--k1);cursor:pointer;font-weight:700}
 .evrow .d{font-size:11px;font-weight:800;color:#B4771F;background:#FBEBD3;border-radius:6px;padding:2px 7px;white-space:nowrap}
 .evrow .n{font-weight:700;word-break:keep-all}
 .evrow .w{font-size:11px;color:#9A8A72}
+
+.nav{display:flex;gap:8px;margin-bottom:14px}
+.nav a{flex:1;text-align:center;font-size:13.5px;font-weight:800;padding:11px 10px;border-radius:12px;text-decoration:none;background:#fff;border:1px solid var(--line);color:#31363E}
+.nav a.pri{background:var(--k1);border-color:var(--k1);color:#fff}
 </style>
 </head>
 <body>
@@ -91,6 +95,7 @@ summary{font-size:12px;color:var(--k1);cursor:pointer;font-weight:700}
     <span class="seg"><button id="mw" class="on" onclick="setMode('week')">이번 주</button><button id="mb" onclick="setMode('base')">기본</button></span>
   </div>
   <div class="wkbar" id="wkbar"></div>
+  <div class="nav"><a class="pri" href="시간표_주간전체.html">주간 시간표</a><a href="시간표.xlsx">인쇄용 엑셀</a></div>
   <div id="events"></div>
   <div id="hero"></div>
   <p class="sec">다가오는 요일</p>
@@ -106,7 +111,7 @@ summary{font-size:12px;color:var(--k1);cursor:pointer;font-weight:700}
       <div class="help">이 기기에만 저장돼요. 전용 토큰 권장: <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">Fine-grained token</a> → 저장소 <b>Catomo88/time_table</b>, 권한 <b>Contents: Read and write</b>. <span id="tokstate"></span></div>
     </details>
   </div>
-  <div class="foot"><a href="시간표_주간전체.html">주간 시간표 보기</a><a href="시간표.xlsx">인쇄용 엑셀</a></div>
+  
 </div>
 <script>
 var DATA = [{"who": "첫째", "day": "월", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "13:50", "e": "15:20", "title": "방과후 회화미술", "cat": "after", "place": "학교", "assumed": false, "note": "유료"}, {"who": "첫째", "day": "월", "s": "15:50", "e": "16:20", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "14:00", "e": "15:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "16:00", "e": "16:30", "title": "피아노", "cat": "academy", "place": "피아노학원", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "13:00", "e": "14:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "13:40", "e": "15:10", "title": "맞춤형 메이키메이커", "cat": "after", "place": "학교", "assumed": false, "note": "무료"}, {"who": "첫째", "day": "목", "s": "17:10", "e": "17:40", "title": "영어수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "12:50", "e": "14:20", "title": "맞춤형 종이접기", "cat": "after", "place": "학교", "assumed": false, "note": "무료"}, {"who": "첫째", "day": "금", "s": "14:40", "e": "16:00", "title": "미술학원", "cat": "academy", "place": "미술학원", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "16:00", "e": "17:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "둘째와 함께 · 이모님 픽업"}, {"who": "둘째", "day": "월", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "월", "s": "16:20", "e": "16:50", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "화", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "16:30", "e": "17:00", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "목", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "금", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": "하원 시간 늘림"}, {"who": "둘째", "day": "금", "s": "16:00", "e": "17:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "첫째와 함께 · 이모님 픽업"}, {"who": "첫째", "day": "수", "s": "19:30", "e": "20:10", "title": "첼로", "cat": "academy", "place": "첼로교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "일", "s": "15:00", "e": "16:00", "title": "수영", "cat": "academy", "place": "수영장", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "19:00", "e": "19:30", "title": "화상영어", "cat": "academy", "place": "온라인", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "19:00", "e": "19:30", "title": "화상영어", "cat": "academy", "place": "온라인", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "19:30", "e": "20:00", "title": "축구", "cat": "academy", "place": "축구교실", "assumed": true, "note": "추정"}, {"who": "첫째", "day": "수", "s": "17:10", "e": "17:40", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": true, "note": "추정"}];
@@ -159,6 +164,7 @@ function drawEvents(){
   }).join("");
   box.innerHTML='<div class="evbox"><div class="t">다가오는 일정</div>'+rows+"</div>";
 }
+function shortTitle(t){var v=t.replace("정규수업","학교").replace(/^(방과후|맞춤형)\s*/,"");if(v.length>3)v=v.replace(/학원$/,"").replace(/수업$/,"");return v||t}
 function draw(){
   var e=eff(),sun=dOf(6);
   document.getElementById("rng").textContent=(MON.getMonth()+1)+"월 "+MON.getDate()+"일 – "+(sun.getMonth()+1)+"월 "+sun.getDate()+"일 · "+DAYS[TD]+"요일";
@@ -181,8 +187,9 @@ function draw(){
       var k=w==="첫째"?1:2;
       var mine=items.filter(function(o){return o.a.who===w&&o.a.cat!=="care"});
       if(!mine.length)return '<div class="kline"><span class="nm nm'+k+'">'+NAME[w]+'</span><span class="none">일정 없음</span></div>';
-      var parts=mine.map(function(o){var x=o.a;return x.cat==="school"?(w==="첫째"?"하교 ":"하원 ")+x.e:x.title+" "+x.s});
-      return '<div class="kline"><span class="nm nm'+k+'">'+NAME[w]+'</span><span class="ch2">'+parts.join(' <span class="ar">&rarr;</span> ')+"</span></div>";
+      var parts=mine.map(function(o){var x=o.a;return x.cat==="school"?(w==="첫째"?"하교 ":"하원 ")+x.e:shortTitle(x.title)+" "+x.s});
+      var more=parts.length>3?parts.length-3:0;
+      return '<div class="kline"><span class="nm nm'+k+'">'+NAME[w]+'</span><span class="ch2">'+parts.slice(0,3).join(' <span class="ar">&rarr;</span> ')+(more?' <span class="ar">+'+more+"</span>":"")+"</span></div>";
     }).join("");
     list+='<div class="card" onclick="this.classList.toggle(\'open\')"><div class="ch"><span class="cd'+(d>4?" we":"")+'">'+DAYS[d]+'</span><span class="cdt">'+(dt.getMonth()+1)+"월 "+dt.getDate()+'일</span><span class="cnt">일정 '+items.length+(MODE==="week"&&wkDay[DAYS[d]]?'<span class="wd"></span>':"")+'</span></div>'+lines+'<div class="cx">'+items.map(function(o){return rowHtml(o,false)}).join("")+"</div></div>";
   }

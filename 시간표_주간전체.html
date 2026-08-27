@@ -23,7 +23,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
 .seg button{border:none;background:none;font-size:12px;font-weight:700;padding:5px 11px;border-radius:99px;cursor:pointer;color:#7C8089}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 .wkbar{font-size:11.5px;background:#F3EEFC;color:#5B3AA6;border:1px solid #E3D9F7;border-radius:9px;padding:7px 10px;margin:8px 0 2px;font-weight:700;display:none}
-.grid{position:relative;display:grid;grid-template-columns:26px repeat(7,minmax(0,1fr));margin-top:8px}
+.grid{position:relative;display:grid;grid-template-columns:19px repeat(7,minmax(0,1fr));margin-top:8px}
 .ch{text-align:center;font-size:12px;font-weight:800;padding:5px 0 4px;border-bottom:1px solid #E7E4DD;position:relative}
 .ch.we{color:#C05B5B}
 .ch em{display:block;font-style:normal;font-size:10px;color:var(--mut);font-weight:600}
@@ -31,7 +31,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
 .ch.td:after{content:"";position:absolute;left:3px;right:3px;bottom:-1px;height:2px;background:#E5484D;border-radius:2px}
 .ch .wd{position:absolute;top:3px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--wk)}
 .tcol{position:relative}
-.tl{position:absolute;right:3px;font-size:10px;color:#AFB2B9;transform:translateY(-5px)}
+.tl{position:absolute;right:2px;font-size:9.5px;color:#B3B6BC;transform:translateY(-5px)}
 .col{position:relative;border-left:1px solid var(--line)}
 .col.tdc{background:#FFFDF8}
 .hr{position:absolute;left:0;right:0;height:1px;background:#F3F0E9}
@@ -73,6 +73,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
   <div class="bar">
     <button class="fb on" data-k="첫째" onclick="setKid('첫째',this)"><i style="background:#4C5FD5"></i>서원</button>
     <button class="fb" data-k="둘째" onclick="setKid('둘째',this)"><i style="background:#D97757"></i>서준</button>
+    <button class="fb" data-k="both" onclick="setKid('both',this)">겹쳐 보기</button>
     <span class="seg"><button id="mw" class="on" onclick="setMode('week')">이번 주</button><button id="mb" onclick="setMode('base')">기본</button></span>
   </div>
   <div class="wkbar" id="wkbar"></div>
@@ -128,16 +129,18 @@ function weekEvents(){
   return (EVENTS||[]).filter(function(e){return e.start<=b && (e.end||e.start)>=a});
 }
 function draw(){
-  var e=eff(),mine=e.items.filter(function(x){return x.who===KID}),rmv=e.removed.filter(function(x){return x.who===KID});
+  var e=eff(),BOTH=KID==="both";
+  var mine=BOTH?e.items:e.items.filter(function(x){return x.who===KID});
+  var rmv=BOTH?e.removed:e.removed.filter(function(x){return x.who===KID});
   var all=mine.concat(rmv),bd=bounds(all),T0=bd[0],T1=bd[1];
   var PX=1.05,H=(T1-T0)*PX;
-  document.getElementById("ttl").textContent=NAME[KID]+" · 주간 시간표";
+  document.getElementById("ttl").textContent=(BOTH?"두 아이":NAME[KID])+" · 주간 시간표";
   var sun=new Date(MON);sun.setDate(MON.getDate()+6);
   document.getElementById("rng").textContent=(MON.getMonth()+1)+"."+MON.getDate()+" – "+(sun.getMonth()+1)+"."+sun.getDate();
   var wb=document.getElementById("wkbar");
   if(MODE==="week"&&WOPS.length){wb.style.display="block";wb.textContent="이번 주 변경 "+WOPS.length+"건 반영됨 · 다음 주엔 기본으로 돌아가요"}
   else if(MODE==="week"){wb.style.display="none"}else{wb.style.display="none"}
-  var wkDay={};WOPS.forEach(function(o){var t=(o.match||o.item||{});if(t.who===KID&&t.day)wkDay[t.day]=1});
+  var wkDay={};WOPS.forEach(function(o){var t=(o.match||o.item||{});if((BOTH||t.who===KID)&&t.day)wkDay[t.day]=1});
   var g=document.getElementById("grid"),html='<div class="ch"></div>';
   for(var d=0;d<7;d++){
     var dt=new Date(MON);dt.setDate(MON.getDate()+d);
@@ -157,8 +160,10 @@ function draw(){
     list.forEach(function(o){
       var x=o.a,top=(t2m(x.s)-T0)*PX,ht=Math.max((t2m(x.e)-t2m(x.s))*PX-2,15);
       var code=(CATC[x.cat]||"E");if(x.cat==="after"&&/^맞춤형/.test(x.title))code="M";
-      var cls="ev k"+(KID==="첫째"?1:2)+" "+code+(o.g?" ghost":(x._wk?" wkadd":""));
-      s+='<div class="'+cls+'" style="top:'+top+"px;height:"+ht+'px" title="'+x.title+" "+x.s+"–"+x.e+(x.place?" · "+x.place:"")+'"><b>'+shortName(x.title)+"</b>"+(ht>=34?"<span>"+x.s+"</span>":"")+"</div>";
+      var kn=x.who==="첫째"?1:2;
+      var cls="ev k"+kn+" "+code+(o.g?" ghost":(x._wk?" wkadd":""));
+      var side=BOTH?(kn===1?"left:1px;right:50%":"left:50%;right:1px"):"left:2px;right:2px";
+      s+='<div class="'+cls+'" style="top:'+top+"px;height:"+ht+"px;"+side+'" title="'+(BOTH?NAME[x.who]+" · ":"")+x.title+" "+x.s+"–"+x.e+(x.place?" · "+x.place:"")+'"><b>'+shortName(x.title)+"</b>"+((!BOTH&&ht>=34)?"<span>"+x.s+"</span>":"")+"</div>";
     });
     html+=s+"</div>";
   }
@@ -167,16 +172,16 @@ function draw(){
   var old=g.querySelector(".now");if(old)old.remove();
   if(TD<7&&NM>=T0&&NM<=T1){
     var n=document.createElement("div");n.className="now";
-    var colw=(g.clientWidth-26)/7;
+    var colw=(g.clientWidth-19)/7;
     n.style.top=(g.querySelector(".ch").offsetHeight+(NM-T0)*PX)+"px";
-    n.style.left=(26+colw*TD)+"px";n.style.width=colw+"px";
+    n.style.left=(19+colw*TD)+"px";n.style.width=colw+"px";
     g.appendChild(n);
   }
   var we=weekEvents(),eb=document.getElementById("evb");
   if(we.length){eb.style.display="block";eb.innerHTML=we.map(function(e){
     var d=new Date(e.start+"T00:00:00");return "<span>"+(d.getMonth()+1)+"/"+d.getDate()+" "+e.title+"</span>"}).join("")}
   else eb.style.display="none";
-  document.getElementById("lg").innerHTML=KID==="첫째"
+  document.getElementById("lg").innerHTML=BOTH?'<span><i style="background:#4C5FD5"></i>서원(왼쪽)</span><span><i style="background:#D97757"></i>서준(오른쪽)</span><span><i style="background:#CDD4F5"></i>방과후(유료)</span><span><i style="background:#F4F6FE;border:1px dashed #5A6AD8"></i>맞춤형(무료)</span>':KID==="첫째"
     ?'<span><i style="background:#E4E8FA"></i>학교</span><span><i style="background:#CDD4F5"></i>방과후(유료)</span><span><i style="background:#F4F6FE;border:1px dashed #5A6AD8"></i>맞춤형(무료)</span><span><i style="background:#4C5FD5"></i>학원</span><span><i style="background:#F7F8FE;border:1px solid #C3CAF2"></i>등하교</span>'
     :'<span><i style="background:#FAE6DA"></i>어린이집</span><span><i style="background:#D97757"></i>학원</span><span><i style="background:#F6EDE6"></i>기타</span>';
 }
