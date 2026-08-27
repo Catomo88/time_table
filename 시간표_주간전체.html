@@ -103,6 +103,12 @@ function bounds(list){
 }
 function setKid(k,el){KID=k;var b=el.parentNode.querySelectorAll(".fb");for(var i=0;i<b.length;i++)b[i].className="fb"+(b[i].getAttribute("data-k")===k?" on":"");draw()}
 function setMode(m){MODE=m;document.getElementById("mw").className=m==="week"?"on":"";document.getElementById("mb").className=m==="base"?"on":"";draw()}
+function shortName(t){
+  var s=t.replace("정규수업","학교").replace(/^방과후\s*/,"");
+  if(s.length>3)s=s.replace(/학원$/,"").replace(/수업$/,"").replace(/교실$/,"");
+  s=s.replace(/\s*돌봄$/,"");
+  return s||t;
+}
 function fit(el){
   var fs=11.5;el.style.fontSize=fs+"px";
   while((el.scrollHeight>el.clientHeight+1||el.scrollWidth>el.clientWidth+1)&&fs>8){fs-=.5;el.style.fontSize=fs+"px"}
@@ -136,7 +142,7 @@ function draw(){
     list.forEach(function(o){
       var x=o.a,top=(t2m(x.s)-T0)*PX,ht=Math.max((t2m(x.e)-t2m(x.s))*PX-2,15);
       var cls="ev k"+(KID==="첫째"?1:2)+" "+(CATC[x.cat]||"E")+(o.g?" ghost":(x._wk?" wkadd":""));
-      s+='<div class="'+cls+'" style="top:'+top+"px;height:"+ht+'px" title="'+x.title+" "+x.s+"–"+x.e+(x.place?" · "+x.place:"")+'"><b>'+x.title+"</b>"+(ht>=34?"<span>"+x.s+"</span>":"")+"</div>";
+      s+='<div class="'+cls+'" style="top:'+top+"px;height:"+ht+'px" title="'+x.title+" "+x.s+"–"+x.e+(x.place?" · "+x.place:"")+'"><b>'+shortName(x.title)+"</b>"+(ht>=34?"<span>"+x.s+"</span>":"")+"</div>";
     });
     html+=s+"</div>";
   }
