@@ -85,7 +85,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
   <div class="evb" id="evb"></div>
   <div class="grid" id="grid"></div>
   <div class="lg" id="lg"></div>
-  <p style="font-size:10.5px;color:#A8ABB2;margin-top:6px">물결선 = 수업 시간대(9~13시)를 줄여 표시한 구간</p>
+  <p style="font-size:10.5px;color:#A8ABB2;margin-top:6px">물결선 = 수업 시간대(10~13시)를 줄여 표시한 구간</p>
   <div class="foot"><a href="index.html">← 처음으로</a><a href="시간표_대시보드.html">오늘 보기</a><button onclick="window.print()">인쇄 / PDF</button></div>
 </div>
 <script>
@@ -139,7 +139,7 @@ function draw(){
   var mine=BOTH?e.items:e.items.filter(function(x){return x.who===KID});
   var rmv=BOTH?e.removed:e.removed.filter(function(x){return x.who===KID});
   var all=mine.concat(rmv),bd=bounds(all),T0=bd[0],T1=bd[1];
-  var PX=0.95,CS=9*60,CE=13*60;
+  var PX=0.95,CS=10*60,CE=13*60;
   var SEG=[];
   if(T0<Math.min(CS,T1))SEG.push([T0,Math.min(CS,T1),1]);
   if(T1>CS&&T0<CE)SEG.push([Math.max(CS,T0),Math.min(CE,T1),0.3]);
@@ -190,7 +190,7 @@ function draw(){
     var hh=g.querySelector(".ch").offsetHeight,za=Y(Math.max(CS,T0)),zb=Y(Math.min(CE,T1));
     var br=document.createElement("div");br.className="brk";
     br.style.top=(hh+(za+zb)/2-10)+"px";br.style.left="19px";
-    br.innerHTML='<div class="w t"></div><div class="w b"></div><div class="cap">9–13시 압축</div>';
+    br.innerHTML='<div class="w t"></div><div class="w b"></div><div class="cap">10–13시 압축</div>';
     g.appendChild(br);
   }
   if(TD<7&&NM>=T0&&NM<=T1){
