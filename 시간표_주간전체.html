@@ -36,6 +36,8 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
 .col.tdc{background:#FFFDF8}
 .hr{position:absolute;left:0;right:0;height:1px;background:#F3F0E9}
 .hr.h{background:#E9E5DC}
+.zone{position:absolute;left:0;right:0;background:repeating-linear-gradient(45deg,rgba(0,0,0,.028) 0 4px,transparent 4px 9px);pointer-events:none}
+.zl{position:absolute;right:2px;font-size:8.5px;color:#C0C3C8;letter-spacing:-.5px}
 .ev{position:absolute;left:2px;right:2px;border-radius:5px;padding:2px 4px;overflow:hidden;border-left:3px solid;line-height:1.12}
 .ev b{font-weight:700;display:block;word-break:keep-all;overflow-wrap:anywhere}
 .ev span{font-size:.85em;opacity:.78;display:block;margin-top:1px}
@@ -80,6 +82,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
   <div class="evb" id="evb"></div>
   <div class="grid" id="grid"></div>
   <div class="lg" id="lg"></div>
+  <p style="font-size:10.5px;color:#A8ABB2;margin-top:6px">빗금 구간(9~13시)은 수업 시간이라 좁게 표시했어요</p>
   <div class="foot"><a href="index.html">← 처음으로</a><a href="시간표_대시보드.html">오늘 보기</a><button onclick="window.print()">인쇄 / PDF</button></div>
 </div>
 <script>
@@ -133,7 +136,13 @@ function draw(){
   var mine=BOTH?e.items:e.items.filter(function(x){return x.who===KID});
   var rmv=BOTH?e.removed:e.removed.filter(function(x){return x.who===KID});
   var all=mine.concat(rmv),bd=bounds(all),T0=bd[0],T1=bd[1];
-  var PX=1.05,H=(T1-T0)*PX;
+  var PX=0.95,CS=9*60,CE=13*60;
+  var SEG=[];
+  if(T0<Math.min(CS,T1))SEG.push([T0,Math.min(CS,T1),1]);
+  if(T1>CS&&T0<CE)SEG.push([Math.max(CS,T0),Math.min(CE,T1),0.3]);
+  if(T1>CE)SEG.push([Math.max(CE,T0),T1,1]);
+  function Y(m){var y=0;for(var i=0;i<SEG.length;i++){var a=SEG[i][0],b=SEG[i][1],k=SEG[i][2];if(m<=a)break;y+=(Math.min(m,b)-a)*k*PX}return y}
+  var H=Y(T1);
   document.getElementById("ttl").textContent=(BOTH?"두 아이":NAME[KID])+" · 주간 시간표";
   var sun=new Date(MON);sun.setDate(MON.getDate()+6);
   document.getElementById("rng").textContent=(MON.getMonth()+1)+"."+MON.getDate()+" – "+(sun.getMonth()+1)+"."+sun.getDate();
@@ -148,7 +157,12 @@ function draw(){
     html+='<div class="ch'+(d>4?" we":"")+(d===TD?" td":"")+'">'+DAYS[d]+"<em>"+dt.getDate()+"</em>"+(MODE==="week"&&wkDay[DAYS[d]]?'<span class="wd"></span>':"")+(hasEv?'<span class="ed"></span>':"")+"</div>";
   }
   html+='<div class="tcol" style="height:'+H+'px">';
-  for(var h=T0/60;h<=T1/60;h++)html+='<div class="tl" style="top:'+((h*60-T0)*PX)+'px">'+h+"</div>";
+  for(var h=T0/60;h<=T1/60;h++){
+    var hm=h*60;
+    if(hm>CS&&hm<CE)continue;
+    html+='<div class="tl" style="top:'+Y(hm)+'px">'+h+"</div>";
+  }
+  if(T1>CS&&T0<CE)html+='<div class="zl" style="top:'+(Y(Math.max(CS,T0))+(Y(Math.min(CE,T1))-Y(Math.max(CS,T0)))/2-5)+'px">수업</div>';
   html+="</div>";
   for(var d=0;d<7;d++){
     var day=DAYS[d];
@@ -156,9 +170,10 @@ function draw(){
       .concat(rmv.filter(function(x){return x.day===day}).map(function(x){return{a:x,g:1}}))
       .sort(function(a,b){return t2m(a.a.s)-t2m(b.a.s)});
     var s='<div class="col'+(d===TD?" tdc":"")+'" style="height:'+H+'px">';
-    for(var h=T0/60;h<=T1/60;h++)s+='<div class="hr'+(h%2===0?" h":"")+'" style="top:'+((h*60-T0)*PX)+'px"></div>';
+    for(var h=T0/60;h<=T1/60;h++){var hm=h*60;if(hm>CS&&hm<CE)continue;s+='<div class="hr'+(h%2===0?" h":"")+'" style="top:'+Y(hm)+'px"></div>'}
+    if(T1>CS&&T0<CE){var za=Y(Math.max(CS,T0)),zb=Y(Math.min(CE,T1));s+='<div class="zone" style="top:'+za+"px;height:"+(zb-za)+'px"></div>'}
     list.forEach(function(o){
-      var x=o.a,top=(t2m(x.s)-T0)*PX,ht=Math.max((t2m(x.e)-t2m(x.s))*PX-2,15);
+      var x=o.a,top=Y(t2m(x.s)),ht=Math.max(Y(t2m(x.e))-Y(t2m(x.s))-2,14);
       var code=(CATC[x.cat]||"E");if(x.cat==="after"&&/^맞춤형/.test(x.title))code="M";
       var kn=x.who==="첫째"?1:2;
       var cls="ev k"+kn+" "+code+(o.g?" ghost":(x._wk?" wkadd":""));
@@ -173,7 +188,7 @@ function draw(){
   if(TD<7&&NM>=T0&&NM<=T1){
     var n=document.createElement("div");n.className="now";
     var colw=(g.clientWidth-19)/7;
-    n.style.top=(g.querySelector(".ch").offsetHeight+(NM-T0)*PX)+"px";
+    n.style.top=(g.querySelector(".ch").offsetHeight+Y(NM))+"px";
     n.style.left=(19+colw*TD)+"px";n.style.width=colw+"px";
     g.appendChild(n);
   }
