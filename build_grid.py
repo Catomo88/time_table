@@ -135,7 +135,7 @@ import re
 _dj=json.dumps(data,ensure_ascii=False)
 _ov=json.load(open("overrides.json",encoding="utf-8")) if os.path.exists("overrides.json") else {}
 _ovs=json.dumps(_ov,ensure_ascii=False)
-for _f in ["시간표_대시보드.html","시간표_주간전체.html"]:
+for _f in ["index.html","시간표_주간전체.html"]:
     if os.path.exists(_f):
         _t=open(_f,encoding="utf-8").read()
         _t=re.sub(r"var DATA = \[.*?\];","var DATA = "+_dj+";",_t,1,flags=re.S)
