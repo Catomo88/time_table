@@ -36,13 +36,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
 .col.tdc{background:#FFFDF8}
 .hr{position:absolute;left:0;right:0;height:1px;background:#F3F0E9}
 .hr.h{background:#E9E5DC}
-.zone{position:absolute;left:0;right:0;background:repeating-linear-gradient(45deg,rgba(0,0,0,.022) 0 4px,transparent 4px 9px);pointer-events:none}
-.fold{position:absolute;left:0;right:0;pointer-events:none;z-index:5;border-top:1.5px dashed #C3C7CE;border-bottom:1.5px dashed #C3C7CE;background:linear-gradient(rgba(250,249,247,.55),rgba(250,249,247,.55))}
-.fold .cap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border:1px solid #DCDEE3;border-radius:99px;padding:2px 9px;font-size:10px;font-weight:800;color:#8B8F98;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.fold .cap b{color:#5F646C}
-.fold .zz{position:absolute;left:0;right:0;height:5px;background-size:10px 5px;background-repeat:repeat-x}
-.fold .zz.t{top:-3px;background-image:linear-gradient(135deg,#FAF9F7 25%,transparent 25%),linear-gradient(225deg,#FAF9F7 25%,transparent 25%)}
-.fold .zz.b{bottom:-3px;background-image:linear-gradient(45deg,#FAF9F7 25%,transparent 25%),linear-gradient(315deg,#FAF9F7 25%,transparent 25%)}
+.brk{position:absolute;left:0;right:0;height:9px;z-index:5;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='9' viewBox='0 0 18 9'%3E%3Cpath d='M0 4.5 Q4.5 0.5 9 4.5 T18 4.5' fill='none' stroke='%23C4C8CE' stroke-width='1.1'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:18px 9px}
 .zl{position:absolute;right:2px;font-size:8.5px;color:#C0C3C8;letter-spacing:-.5px}
 .ev{position:absolute;left:2px;right:2px;border-radius:5px;padding:2px 4px;overflow:hidden;border-left:3px solid;line-height:1.12}
 .ev b{font-weight:700;display:block;word-break:keep-all;overflow-wrap:anywhere}
@@ -88,7 +82,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
   <div class="evb" id="evb"></div>
   <div class="grid" id="grid"></div>
   <div class="lg" id="lg"></div>
-  <p style="font-size:10.5px;color:#A8ABB2;margin-top:6px">점선으로 접힌 구간은 학교·유치원 수업 시간이라 줄여서 표시했어요</p>
+  <p style="font-size:10.5px;color:#A8ABB2;margin-top:6px">물결선 = 수업 시간대(9~13시)를 줄여 표시한 구간</p>
   <div class="foot"><a href="index.html">← 처음으로</a><a href="시간표_대시보드.html">오늘 보기</a><button onclick="window.print()">인쇄 / PDF</button></div>
 </div>
 <script>
@@ -168,7 +162,6 @@ function draw(){
     if(hm>CS&&hm<CE)continue;
     html+='<div class="tl" style="top:'+Y(hm)+'px">'+h+"</div>";
   }
-  if(T1>CS&&T0<CE)html+='<div class="zl" style="top:'+(Y(Math.max(CS,T0))+(Y(Math.min(CE,T1))-Y(Math.max(CS,T0)))/2-6)+'px">〰</div>';
   html+="</div>";
   for(var d=0;d<7;d++){
     var day=DAYS[d];
@@ -177,7 +170,6 @@ function draw(){
       .sort(function(a,b){return t2m(a.a.s)-t2m(b.a.s)});
     var s='<div class="col'+(d===TD?" tdc":"")+'" style="height:'+H+'px">';
     for(var h=T0/60;h<=T1/60;h++){var hm=h*60;if(hm>CS&&hm<CE)continue;s+='<div class="hr'+(h%2===0?" h":"")+'" style="top:'+Y(hm)+'px"></div>'}
-    if(T1>CS&&T0<CE){var za=Y(Math.max(CS,T0)),zb=Y(Math.min(CE,T1));s+='<div class="zone" style="top:'+za+"px;height:"+(zb-za)+'px"></div>'}
     list.forEach(function(o){
       var x=o.a,top=Y(t2m(x.s)),ht=Math.max(Y(t2m(x.e))-Y(t2m(x.s))-2,14);
       var code=(CATC[x.cat]||"E");if(x.cat==="after"&&/^맞춤형/.test(x.title))code="M";
@@ -193,10 +185,9 @@ function draw(){
   var old=g.querySelector(".now");if(old)old.remove();
   if(T1>CS&&T0<CE){
     var hh=g.querySelector(".ch").offsetHeight,za=Y(Math.max(CS,T0)),zb=Y(Math.min(CE,T1));
-    var fd=document.createElement("div");fd.className="fold";
-    fd.style.top=(hh+za)+"px";fd.style.height=(zb-za)+"px";fd.style.left="19px";
-    fd.innerHTML='<div class="zz t"></div><div class="zz b"></div><div class="cap">수업 시간 <b>9–13시</b> 접힘</div>';
-    g.appendChild(fd);
+    var br=document.createElement("div");br.className="brk";
+    br.style.top=(hh+(za+zb)/2-4.5)+"px";br.style.left="19px";
+    g.appendChild(br);
   }
   if(TD<7&&NM>=T0&&NM<=T1){
     var n=document.createElement("div");n.className="now";
