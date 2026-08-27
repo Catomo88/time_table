@@ -372,5 +372,16 @@
   "place": "태권도장",
   "assumed": false,
   "note": ""
+ },
+ {
+  "who": "첫째",
+  "day": "목",
+  "s": "16:00",
+  "e": "17:00",
+  "title": "태권도",
+  "cat": "학원",
+  "place": "태권도장",
+  "assumed": false,
+  "note": ""
  }
 ]
