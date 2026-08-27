@@ -75,6 +75,13 @@ summary{font-size:12px;color:var(--k1);cursor:pointer;font-weight:700}
 .tokrow button{font-size:12.5px;font-weight:700;border:1px solid #2E8B57;background:#fff;color:#2E8B57;border-radius:10px;padding:0 12px;cursor:pointer}
 .help{font-size:11px;color:#9AA0A6;line-height:1.6;margin-top:7px}
 .help a{color:var(--k1)}
+
+.evbox{background:#FFF7EC;border:1px solid #F2DFC2;border-radius:14px;padding:12px 14px;margin-bottom:14px}
+.evbox .t{font-size:12px;font-weight:800;color:#9A6412;margin-bottom:6px}
+.evrow{display:flex;gap:8px;align-items:baseline;font-size:13px;padding:3px 0}
+.evrow .d{font-size:11px;font-weight:800;color:#B4771F;background:#FBEBD3;border-radius:6px;padding:2px 7px;white-space:nowrap}
+.evrow .n{font-weight:700;word-break:keep-all}
+.evrow .w{font-size:11px;color:#9A8A72}
 </style>
 </head>
 <body>
@@ -84,6 +91,7 @@ summary{font-size:12px;color:var(--k1);cursor:pointer;font-weight:700}
     <span class="seg"><button id="mw" class="on" onclick="setMode('week')">이번 주</button><button id="mb" onclick="setMode('base')">기본</button></span>
   </div>
   <div class="wkbar" id="wkbar"></div>
+  <div id="events"></div>
   <div id="hero"></div>
   <p class="sec">다가오는 요일</p>
   <div id="list"></div>
@@ -103,6 +111,7 @@ summary{font-size:12px;color:var(--k1);cursor:pointer;font-weight:700}
 <script>
 var DATA = [{"who": "첫째", "day": "월", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "13:50", "e": "15:20", "title": "방과후 회화미술", "cat": "after", "place": "학교", "assumed": false, "note": "유료"}, {"who": "첫째", "day": "월", "s": "15:50", "e": "16:20", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "14:00", "e": "15:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "16:00", "e": "16:30", "title": "피아노", "cat": "academy", "place": "피아노학원", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "13:00", "e": "14:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "13:40", "e": "15:10", "title": "맞춤형 메이키메이커", "cat": "after", "place": "학교", "assumed": false, "note": "무료"}, {"who": "첫째", "day": "목", "s": "17:10", "e": "17:40", "title": "영어수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "12:50", "e": "14:20", "title": "맞춤형 종이접기", "cat": "after", "place": "학교", "assumed": false, "note": "무료"}, {"who": "첫째", "day": "금", "s": "14:40", "e": "16:00", "title": "미술학원", "cat": "academy", "place": "미술학원", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "16:00", "e": "17:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "둘째와 함께 · 이모님 픽업"}, {"who": "둘째", "day": "월", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "월", "s": "16:20", "e": "16:50", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "화", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "16:30", "e": "17:00", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "목", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "금", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": "하원 시간 늘림"}, {"who": "둘째", "day": "금", "s": "16:00", "e": "17:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "첫째와 함께 · 이모님 픽업"}, {"who": "첫째", "day": "수", "s": "19:30", "e": "20:10", "title": "첼로", "cat": "academy", "place": "첼로교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "일", "s": "15:00", "e": "16:00", "title": "수영", "cat": "academy", "place": "수영장", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "19:00", "e": "19:30", "title": "화상영어", "cat": "academy", "place": "온라인", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "19:00", "e": "19:30", "title": "화상영어", "cat": "academy", "place": "온라인", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "19:30", "e": "20:00", "title": "축구", "cat": "academy", "place": "축구교실", "assumed": true, "note": "추정"}, {"who": "첫째", "day": "수", "s": "17:10", "e": "17:40", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": true, "note": "추정"}];
 var OVERRIDES = {};
+var EVENTS = [{"start": "2026-08-29", "end": "2026-08-29", "who": "가족", "title": "다영이네랑 충청도", "s": "", "e": "", "note": ""}];
 var DAYS=["월","화","수","목","금","토","일"],NAME={"첫째":"서원","둘째":"서준"},MODE="week";
 function mk(d){var x=new Date(d),w=(x.getDay()+6)%7;x.setDate(x.getDate()-w);return x.getFullYear()+"-"+("0"+(x.getMonth()+1)).slice(-2)+"-"+("0"+x.getDate()).slice(-2)}
 var NOW=new Date(),TD=(NOW.getDay()+6)%7,NM=NOW.getHours()*60+NOW.getMinutes();
@@ -134,6 +143,22 @@ function rowHtml(o,live){
   var tag=o.g?'<em class="tag c">이번 주 휴강</em>':(cur?'<em class="tag n">지금</em>':(x._wk?'<em class="tag w">이번 주</em>':""));
   return '<div class="row'+(cur?" cur":past?" past":"")+(o.g?" ghost":"")+'"><span class="t">'+x.s+'</span><span class="kt kt'+k+'">'+NAME[x.who]+'</span><span><span class="ti">'+x.title+tag+'</span><div class="sub">'+x.s+"–"+x.e+(x.place?" · "+x.place:"")+(x.note?" · "+x.note:"")+"</div></span></div>";
 }
+
+function ymd(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function drawEvents(){
+  var box=document.getElementById("events");if(!box)return;
+  var t=ymd(NOW),lim=new Date(NOW);lim.setDate(NOW.getDate()+21);var limS=ymd(lim);
+  var list=(EVENTS||[]).filter(function(e){return (e.end||e.start)>=t && e.start<=limS})
+    .sort(function(a,b){return a.start<b.start?-1:1});
+  if(!list.length){box.innerHTML="";return}
+  var rows=list.map(function(e){
+    var st=new Date(e.start+"T00:00:00"),dd=Math.round((st-new Date(t+"T00:00:00"))/86400000);
+    var lab=(e.end&&e.end!==e.start)?(st.getMonth()+1)+"."+st.getDate()+"–"+(+e.end.slice(5,7))+"."+(+e.end.slice(8,10)):(st.getMonth()+1)+"."+st.getDate();
+    var dtxt=dd<=0?"오늘":(dd===1?"내일":"D-"+dd);
+    return '<div class="evrow"><span class="d">'+dtxt+'</span><span class="n">'+e.title+'</span><span class="w">'+lab+(e.s?" · "+e.s:"")+(e.who&&e.who!=="가족"?" · "+(NAME[e.who]||e.who):"")+'</span></div>';
+  }).join("");
+  box.innerHTML='<div class="evbox"><div class="t">다가오는 일정</div>'+rows+"</div>";
+}
 function draw(){
   var e=eff(),sun=dOf(6);
   document.getElementById("rng").textContent=(MON.getMonth()+1)+"월 "+MON.getDate()+"일 – "+(sun.getMonth()+1)+"월 "+sun.getDate()+"일 · "+DAYS[TD]+"요일";
@@ -162,6 +187,7 @@ function draw(){
     list+='<div class="card" onclick="this.classList.toggle(\'open\')"><div class="ch"><span class="cd'+(d>4?" we":"")+'">'+DAYS[d]+'</span><span class="cdt">'+(dt.getMonth()+1)+"월 "+dt.getDate()+'일</span><span class="cnt">일정 '+items.length+(MODE==="week"&&wkDay[DAYS[d]]?'<span class="wd"></span>':"")+'</span></div>'+lines+'<div class="cx">'+items.map(function(o){return rowHtml(o,false)}).join("")+"</div></div>";
   }
   document.getElementById("list").innerHTML=list;
+  drawEvents();
 }
 draw();
 

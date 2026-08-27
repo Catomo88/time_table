@@ -61,6 +61,10 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
 .foot{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
 .foot a,.foot button{font-size:12.5px;font-weight:700;padding:8px 13px;border-radius:10px;border:1px solid #E0DDD6;background:#fff;color:#4A4E55;cursor:pointer;text-decoration:none}
 @media print{body{background:#fff}.bar,.foot,.wkbar{display:none}@page{size:portrait}}
+
+.evb{background:#FFF7EC;border:1px solid #F2DFC2;border-radius:11px;padding:8px 11px;margin-top:8px;font-size:12px;color:#8A5B10;font-weight:700;display:none}
+.evb span{display:inline-block;margin-right:10px}
+.ch .ed{position:absolute;top:3px;left:5px;width:6px;height:6px;border-radius:50%;background:#E2A33C}
 </style>
 </head>
 <body>
@@ -72,6 +76,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
     <span class="seg"><button id="mw" class="on" onclick="setMode('week')">이번 주</button><button id="mb" onclick="setMode('base')">기본</button></span>
   </div>
   <div class="wkbar" id="wkbar"></div>
+  <div class="evb" id="evb"></div>
   <div class="grid" id="grid"></div>
   <div class="lg" id="lg"></div>
   <div class="foot"><a href="index.html">← 처음으로</a><a href="시간표_대시보드.html">오늘 보기</a><button onclick="window.print()">인쇄 / PDF</button></div>
@@ -79,6 +84,7 @@ h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
 <script>
 var DATA = [{"who": "첫째", "day": "월", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "월", "s": "13:50", "e": "15:20", "title": "방과후 회화미술", "cat": "after", "place": "학교", "assumed": false, "note": "유료"}, {"who": "첫째", "day": "월", "s": "15:50", "e": "16:20", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "14:00", "e": "15:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "16:00", "e": "16:30", "title": "피아노", "cat": "academy", "place": "피아노학원", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "수", "s": "13:00", "e": "14:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "08:45", "e": "13:30", "title": "정규수업", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "목", "s": "13:40", "e": "15:10", "title": "맞춤형 메이키메이커", "cat": "after", "place": "학교", "assumed": false, "note": "무료"}, {"who": "첫째", "day": "목", "s": "17:10", "e": "17:40", "title": "영어수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:20", "e": "08:45", "title": "등교", "cat": "care", "place": "집→학교", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "08:45", "e": "12:50", "title": "정규수업(단축)", "cat": "school", "place": "○○초", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "12:50", "e": "14:20", "title": "맞춤형 종이접기", "cat": "after", "place": "학교", "assumed": false, "note": "무료"}, {"who": "첫째", "day": "금", "s": "14:40", "e": "16:00", "title": "미술학원", "cat": "academy", "place": "미술학원", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "16:00", "e": "17:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "둘째와 함께 · 이모님 픽업"}, {"who": "둘째", "day": "월", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "월", "s": "16:20", "e": "16:50", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "화", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "16:30", "e": "17:00", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": false, "note": ""}, {"who": "둘째", "day": "목", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": ""}, {"who": "둘째", "day": "금", "s": "09:10", "e": "15:10", "title": "유치원", "cat": "school", "place": "유치원", "assumed": false, "note": "하원 시간 늘림"}, {"who": "둘째", "day": "금", "s": "16:00", "e": "17:00", "title": "태권도", "cat": "academy", "place": "태권도장", "assumed": false, "note": "첫째와 함께 · 이모님 픽업"}, {"who": "첫째", "day": "수", "s": "19:30", "e": "20:10", "title": "첼로", "cat": "academy", "place": "첼로교실", "assumed": false, "note": ""}, {"who": "첫째", "day": "일", "s": "15:00", "e": "16:00", "title": "수영", "cat": "academy", "place": "수영장", "assumed": false, "note": ""}, {"who": "첫째", "day": "화", "s": "19:00", "e": "19:30", "title": "화상영어", "cat": "academy", "place": "온라인", "assumed": false, "note": ""}, {"who": "첫째", "day": "금", "s": "19:00", "e": "19:30", "title": "화상영어", "cat": "academy", "place": "온라인", "assumed": false, "note": ""}, {"who": "둘째", "day": "수", "s": "19:30", "e": "20:00", "title": "축구", "cat": "academy", "place": "축구교실", "assumed": true, "note": "추정"}, {"who": "첫째", "day": "수", "s": "17:10", "e": "17:40", "title": "한글수업", "cat": "academy", "place": "한글교실", "assumed": true, "note": "추정"}];
 var OVERRIDES = {};
+var EVENTS = [{"start": "2026-08-29", "end": "2026-08-29", "who": "가족", "title": "다영이네랑 충청도", "s": "", "e": "", "note": ""}];
 var DAYS=["월","화","수","목","금","토","일"],NAME={"첫째":"서원","둘째":"서준"};
 var CATC={"school":"R","after":"A","academy":"H","care":"P","etc":"E"};
 var KID="첫째",MODE="week";
@@ -115,6 +121,12 @@ function fit(el){
   var fs=11.5;el.style.fontSize=fs+"px";
   while((el.scrollHeight>el.clientHeight+1||el.scrollWidth>el.clientWidth+1)&&fs>8){fs-=.5;el.style.fontSize=fs+"px"}
 }
+
+function ymd(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function weekEvents(){
+  var a=ymd(MON),e2=new Date(MON);e2.setDate(MON.getDate()+6);var b=ymd(e2);
+  return (EVENTS||[]).filter(function(e){return e.start<=b && (e.end||e.start)>=a});
+}
 function draw(){
   var e=eff(),mine=e.items.filter(function(x){return x.who===KID}),rmv=e.removed.filter(function(x){return x.who===KID});
   var all=mine.concat(rmv),bd=bounds(all),T0=bd[0],T1=bd[1];
@@ -129,7 +141,8 @@ function draw(){
   var g=document.getElementById("grid"),html='<div class="ch"></div>';
   for(var d=0;d<7;d++){
     var dt=new Date(MON);dt.setDate(MON.getDate()+d);
-    html+='<div class="ch'+(d>4?" we":"")+(d===TD?" td":"")+'">'+DAYS[d]+"<em>"+dt.getDate()+"</em>"+(MODE==="week"&&wkDay[DAYS[d]]?'<span class="wd"></span>':"")+"</div>";
+    var ds=ymd(dt),hasEv=(EVENTS||[]).some(function(e){return e.start<=ds&&(e.end||e.start)>=ds});
+    html+='<div class="ch'+(d>4?" we":"")+(d===TD?" td":"")+'">'+DAYS[d]+"<em>"+dt.getDate()+"</em>"+(MODE==="week"&&wkDay[DAYS[d]]?'<span class="wd"></span>':"")+(hasEv?'<span class="ed"></span>':"")+"</div>";
   }
   html+='<div class="tcol" style="height:'+H+'px">';
   for(var h=T0/60;h<=T1/60;h++)html+='<div class="tl" style="top:'+((h*60-T0)*PX)+'px">'+h+"</div>";
@@ -159,6 +172,10 @@ function draw(){
     n.style.left=(26+colw*TD)+"px";n.style.width=colw+"px";
     g.appendChild(n);
   }
+  var we=weekEvents(),eb=document.getElementById("evb");
+  if(we.length){eb.style.display="block";eb.innerHTML=we.map(function(e){
+    var d=new Date(e.start+"T00:00:00");return "<span>"+(d.getMonth()+1)+"/"+d.getDate()+" "+e.title+"</span>"}).join("")}
+  else eb.style.display="none";
   document.getElementById("lg").innerHTML=KID==="첫째"
     ?'<span><i style="background:#E4E8FA"></i>학교</span><span><i style="background:#CDD4F5"></i>방과후(유료)</span><span><i style="background:#F4F6FE;border:1px dashed #5A6AD8"></i>맞춤형(무료)</span><span><i style="background:#4C5FD5"></i>학원</span><span><i style="background:#F7F8FE;border:1px solid #C3CAF2"></i>등하교</span>'
     :'<span><i style="background:#FAE6DA"></i>어린이집</span><span><i style="background:#D97757"></i>학원</span><span><i style="background:#F6EDE6"></i>기타</span>';

@@ -134,11 +134,19 @@ print("grid xlsx saved, rows",len(data))
 import re
 _dj=json.dumps(data,ensure_ascii=False)
 _ov=json.load(open("overrides.json",encoding="utf-8")) if os.path.exists("overrides.json") else {}
+import datetime as _dt
+_ev=json.load(open("events.json",encoding="utf-8")) if os.path.exists("events.json") else []
+_today=_dt.date.today().isoformat()
+_ev=[e for e in _ev if (e.get("end") or e.get("start","")) >= _today]
+_ev.sort(key=lambda e: e.get("start",""))
+json.dump(_ev, open("events.json","w",encoding="utf-8"), ensure_ascii=False, indent=1)
+_evs=json.dumps(_ev,ensure_ascii=False)
 _ovs=json.dumps(_ov,ensure_ascii=False)
 for _f in ["index.html","시간표_주간전체.html"]:
     if os.path.exists(_f):
         _t=open(_f,encoding="utf-8").read()
         _t=re.sub(r"var DATA = \[.*?\];","var DATA = "+_dj+";",_t,1,flags=re.S)
         _t=re.sub(r"var OVERRIDES = .*","var OVERRIDES = "+_ovs+";",_t,1)
+        _t=re.sub(r"var EVENTS = .*","var EVENTS = "+_evs+";",_t,1)
         open(_f,"w",encoding="utf-8").write(_t)
 print("html injected")

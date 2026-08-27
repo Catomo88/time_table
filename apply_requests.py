@@ -18,6 +18,7 @@ if not KEY:
 
 sched = load("schedule.json", [])
 overrides = load("overrides.json", {})
+events = load("events.json", [])
 orig_count = len(sched)
 
 today = datetime.date.today()
@@ -31,6 +32,9 @@ prompt = (
 '- {"op":"add","scope":"base|week","item":{"who":"첫째|둘째","day":"월~일","s":"HH:MM","e":"HH:MM","title":..,"cat":"정규수업|방과후|학원|돌봄/픽업|기타","place":..,"assumed":false,"note":""}}\n'
 '- {"op":"remove","scope":"base|week","match":{"who":..,"day":..,"title":..}}   (휴강·취소)\n'
 '- {"op":"update","scope":"base|week","match":{"who":..,"day":..,"title":..},"set":{바꿀 필드만}}\n'
+'- 특정 날짜 일정(여행·캠프·약속·방학 등): {"op":"add","scope":"date","event":{"start":"YYYY-MM-DD","end":"YYYY-MM-DD","who":"첫째|둘째|가족","title":..,"s":"HH:MM 또는 빈칸","e":"","note":""}}\n'
+'- 날짜 일정 삭제: {"op":"remove","scope":"date","match":{"title":..}}\n'
+"날짜가 언급된 일회성 일정은 반드시 scope \"date\"로 하세요(주간 반복 일정이 아닙니다). 오늘은 " + datetime.date.today().isoformat() + " 입니다.\n"
 "규칙: 어린이집·학교수업=cat \"정규수업\", 사교육=cat \"학원\". 끝시간 불명이면 30~60분으로 잡고 assumed=true, note=\"추정\".\n"
 "학교 안 수업은 cat \"방과후\"로 하되, 유료면 title을 \"방과후 OO\"·note \"유료\", 무료면 title을 \"맞춤형 OO\"·note \"무료\"로 구분하세요.\n"
 "요청과 무관한 항목은 연산에 넣지 마세요. 출력은 JSON 배열만.\n\n"
@@ -56,6 +60,16 @@ log=[]
 for o in ops:
     scope=o.get("scope","base")
     op=o.get("op")
+    if scope=="date":
+        if op=="add":
+            ev=dict(o.get("event",{}))
+            ev.setdefault("end",ev.get("start","")); ev.setdefault("who","가족")
+            ev.setdefault("s",""); ev.setdefault("e",""); ev.setdefault("note","")
+            events.append(ev); log.append(f"[날짜] + {ev.get('start')} {ev.get('title')}")
+        elif op=="remove":
+            keep=[e for e in events if not all(e.get(k)==v for k,v in o.get("match",{}).items())]
+            log.append(f"[날짜] - {o.get('match')} ({len(events)-len(keep)}건)"); events=keep
+        continue
     if scope=="week":
         clean={k:v for k,v in o.items() if k!="scope"}
         wk_ops.append(clean)
@@ -83,6 +97,9 @@ overrides = {k:v for k,v in overrides.items() if k >= WK}   # 지난 주 자동 
 
 json.dump(sched, open("schedule.json","w",encoding="utf-8"), ensure_ascii=False, indent=1)
 json.dump(overrides, open("overrides.json","w",encoding="utf-8"), ensure_ascii=False, indent=1)
+events=[e for e in events if (e.get("end") or e.get("start","")) >= datetime.date.today().isoformat()]
+events.sort(key=lambda e: e.get("start",""))
+json.dump(events, open("events.json","w",encoding="utf-8"), ensure_ascii=False, indent=1)
 
 now=datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 hist=load("history.json",[])
