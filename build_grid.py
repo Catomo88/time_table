@@ -4,6 +4,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.cell.cell import MergedCell
+from openpyxl.utils import get_column_letter
 
 KFONT="맑은 고딕"
 DAYS=["월","화","수","목","금","토","일"]
@@ -97,6 +98,69 @@ def grid_sheet(who):
     ws.cell(lr+1,1,"* 표시 = 사진에 끝나는 시간이 없어 약 50분으로 추정한 항목 (확인 필요)").font=Font(name=KFONT,italic=True,size=8,color="C00000")
 
 for w in WHO: grid_sheet(w)
+
+def combo_sheet():
+    ws=wb.create_sheet("두 아이 주간표")
+    ws.sheet_view.showGridLines=False
+    NC=1+len(DAYS)*2
+    t=ws.cell(1,1,"두 아이 주간 시간표  (서원 · 서준)")
+    t.font=Font(name=KFONT,bold=True,size=16,color="FFFFFF")
+    t.fill=PatternFill("solid",fgColor="404040"); t.alignment=Alignment("center","center")
+    ws.merge_cells(start_row=1,start_column=1,end_row=1,end_column=NC)
+    ws.row_dimensions[1].height=28
+    hc=ws.cell(2,1,"시간"); hc.font=Font(name=KFONT,bold=True,color="FFFFFF")
+    hc.fill=PatternFill("solid",fgColor="595959"); hc.alignment=Alignment("center","center"); hc.border=border
+    ws.merge_cells(start_row=2,start_column=1,end_row=3,end_column=1)
+    for i,d in enumerate(DAYS):
+        c1=2+i*2
+        c=ws.cell(2,c1,d); c.font=Font(name=KFONT,bold=True,color="FFFFFF",size=12)
+        c.fill=PatternFill("solid",fgColor="404040"); c.alignment=Alignment("center","center"); c.border=border
+        ws.merge_cells(start_row=2,start_column=c1,end_row=2,end_column=c1+1)
+        for j,(nm,col) in enumerate([("서원",HEAD["첫째"]),("서준",HEAD["둘째"])]):
+            sc=ws.cell(3,c1+j,nm); sc.font=Font(name=KFONT,bold=True,color="FFFFFF",size=9)
+            sc.fill=PatternFill("solid",fgColor=col); sc.alignment=Alignment("center","center"); sc.border=border
+    ws.row_dimensions[2].height=18; ws.row_dimensions[3].height=15
+    R0=4
+    for i in range(NROWS):
+        r=R0+i; m=GS+i*STEP
+        lab=f"{m//60:02d}:{m%60:02d}" if m%30==0 else ""
+        c=ws.cell(r,1,lab); c.font=Font(name=KFONT,size=8,bold=(m%60==0),color="555555")
+        c.alignment=Alignment("center","center"); c.border=border
+        c.fill=PatternFill("solid",fgColor="EFEFEF" if m%60==0 else "F7F7F7")
+        ws.row_dimensions[r].height=15
+        for j in range(2,2+len(DAYS)*2):
+            ws.cell(r,j).border=border
+    for row in S:
+        who,day,st,en,title,cat,place,assumed,note=row
+        if day not in DAYS: continue
+        col=2+DAYS.index(day)*2+(0 if who=="첫째" else 1)
+        sm,em=toMin(st),toMin(en)
+        sr=R0+max(0,(sm-GS)//STEP)
+        er=R0+min(NROWS,-(-(em-GS)//STEP))-1
+        if er<sr: er=sr
+        while sr<=er and isinstance(ws.cell(sr,col),MergedCell): sr+=1
+        for r in range(sr,er+1):
+            cell=ws.cell(r,col); cell.fill=PatternFill("solid",fgColor=FILL[cat])
+        top=ws.cell(sr,col)
+        top.value=f"{title}\n{st}"
+        top.font=Font(name=KFONT,size=8,bold=True,color=TXT[cat])
+        top.alignment=Alignment("center","center",wrap_text=True)
+        if er>sr: ws.merge_cells(start_row=sr,start_column=col,end_row=er,end_column=col)
+        for r in range(sr,er+1):
+            ws.cell(r,col).border=Border(left=med,right=med,top=med if r==sr else thin,bottom=med if r==er else thin)
+    ws.column_dimensions["A"].width=7
+    for j in range(2,2+len(DAYS)*2):
+        ws.column_dimensions[get_column_letter(j)].width=9.5
+    ws.print_area=f"A1:{get_column_letter(NC)}{R0+NROWS-1}"
+    ws.page_setup.orientation="landscape"
+    ws.page_setup.fitToWidth=1; ws.page_setup.fitToHeight=1
+    ws.sheet_properties.pageSetUpPr.fitToPage=True
+    ws.page_margins.left=ws.page_margins.right=0.25
+    ws.page_margins.top=ws.page_margins.bottom=0.35
+    ws.freeze_panes="B4"
+
+combo_sheet()
+
 
 # ---- 일정 (editable list) ----
 ws=wb.create_sheet("일정(편집용)"); ws.sheet_view.showGridLines=False
