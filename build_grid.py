@@ -15,6 +15,12 @@ CATCODE={"정규수업":"school","방과후":"after","학원":"academy","돌봄/
 FILL={"정규수업":"CFE2F3","방과후":"D9EAD3","학원":"FCE5CD","돌봄/픽업":"FFF2CC","기타":"E6E0EC"}
 TXT ={"정규수업":"1F4E79","방과후":"2E6B1F","학원":"9C4A16","돌봄/픽업":"7A5E00","기타":"5B3F7A"}
 HEAD={"첫째":"2E8B57","둘째":"2F6FC0"}
+
+KFILL={"첫째":{"정규수업":"DDE5F9","방과후":"C3D0F1","학원":"A9BAEB","돌봄/픽업":"EFF3FD","기타":"E4E9F8"},
+       "둘째":{"정규수업":"FBE6D8","방과후":"F5D0B4","학원":"EFB894","돌봄/픽업":"FEF4EC","기타":"FAEDE3"}}
+KTXT={"첫째":"20388C","둘째":"8A4520"}
+KHEAD={"첫째":"3B4CB8","둘째":"C4661F"}
+
 toMin=lambda t:int(t[:2])*60+int(t[3:])
 GS,STEP=480,15
 _maxend=max((toMin(r[3]) for r in S), default=1080)
@@ -117,7 +123,7 @@ def combo_sheet():
         c=ws.cell(2,c1,d); c.font=Font(name=KFONT,bold=True,color="FFFFFF",size=12)
         c.fill=PatternFill("solid",fgColor="404040"); c.alignment=Alignment("center","center"); c.border=border
         ws.merge_cells(start_row=2,start_column=c1,end_row=2,end_column=c1+1)
-        for j,(nm,col) in enumerate([("서원",HEAD["첫째"]),("서준",HEAD["둘째"])]):
+        for j,(nm,col) in enumerate([("서원",KHEAD["첫째"]),("서준",KHEAD["둘째"])]):
             sc=ws.cell(3,c1+j,nm); sc.font=Font(name=KFONT,bold=True,color="FFFFFF",size=9)
             sc.fill=PatternFill("solid",fgColor=col); sc.alignment=Alignment("center","center"); sc.border=border
     ws.row_dimensions[2].height=15; ws.row_dimensions[3].height=13
@@ -140,12 +146,13 @@ def combo_sheet():
         er=R0+min(NROWS,-(-(em-GS)//STEP))-1
         if er<sr: er=sr
         while sr<=er and isinstance(ws.cell(sr,col),MergedCell): sr+=1
+        _fc=KFILL[who][cat]; _tc=KTXT[who]
         for r in range(sr,er+1):
-            cell=ws.cell(r,col); cell.fill=PatternFill("solid",fgColor=FILL[cat])
+            cell=ws.cell(r,col); cell.fill=PatternFill("solid",fgColor=_fc)
         top=ws.cell(sr,col)
         top.value=f"{title}\n{st}–{en}"
         _dur=em-sm
-        top.font=Font(name=KFONT,size=(6.5 if _dur<=30 else 7.5),bold=True,color=TXT[cat])
+        top.font=Font(name=KFONT,size=(6.5 if _dur<=30 else 7.5),bold=True,color=_tc)
         top.alignment=Alignment("center","center",wrap_text=True)
         if er>sr: ws.merge_cells(start_row=sr,start_column=col,end_row=er,end_column=col)
         for r in range(sr,er+1):
@@ -160,6 +167,19 @@ def combo_sheet():
     ws.page_margins.left=ws.page_margins.right=0.18
     ws.page_margins.top=ws.page_margins.bottom=0.22
     ws.page_setup.paperSize=9
+    lr=R0+NROWS+1
+    lg=ws.cell(lr,1,"색상 구분"); lg.font=Font(name=KFONT,bold=True,size=8)
+    cpos=2
+    for who,nm in [("첫째","서원"),("둘째","서준")]:
+        for cat in ["정규수업","방과후","학원"]:
+            c=ws.cell(lr,cpos,f"{nm} {cat}")
+            c.fill=PatternFill("solid",fgColor=KFILL[who][cat])
+            c.font=Font(name=KFONT,size=7,bold=True,color=KTXT[who])
+            c.alignment=Alignment("center","center"); c.border=border
+            ws.merge_cells(start_row=lr,start_column=cpos,end_row=lr,end_column=cpos+1)
+            cpos+=2
+    ws.row_dimensions[lr].height=13
+    ws.print_area=f"A1:{get_column_letter(NC)}{lr}"
     ws.freeze_panes="B4"
 
 combo_sheet()
