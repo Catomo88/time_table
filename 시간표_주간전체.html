@@ -193,7 +193,7 @@ function draw(){
   var evs=g.querySelectorAll(".ev");for(var i=0;i<evs.length;i++)fit(evs[i]);
   var old=g.querySelector(".now");if(old)old.remove();
   if(T1>CS&&T0<CE){
-    var hh=g.querySelector(".ch").offsetHeight,za=Y(Math.max(CS,T0)),zb=Y(Math.min(CE,T1));
+    var hd=g.querySelector(".ch"),hh=hd?hd.offsetHeight:28,za=Y(Math.max(CS,T0)),zb=Y(Math.min(CE,T1));
     var br=document.createElement("div");br.className="brk";
     br.style.top=(hh+(za+zb)/2-8)+"px";br.style.left="19px";
     br.innerHTML='<div class="w t"></div><div class="mid"></div><div class="w b"></div>';
@@ -202,7 +202,7 @@ function draw(){
   if(TD<7&&NM>=T0&&NM<=T1){
     var n=document.createElement("div");n.className="now";
     var colw=(g.clientWidth-19)/7;
-    n.style.top=(g.querySelector(".ch").offsetHeight+Y(NM))+"px";
+    var hd2=g.querySelector(".ch");n.style.top=((hd2?hd2.offsetHeight:28)+Y(NM))+"px";
     n.style.left=(19+colw*TD)+"px";n.style.width=colw+"px";
     g.appendChild(n);
   }
