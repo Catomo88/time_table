@@ -180,7 +180,7 @@ function draw(){
       var kn=x.who==="첫째"?1:2;
       var cls="ev k"+kn+" "+code+(o.g?" ghost":(x._wk?" wkadd":""));
       var side=BOTH?(kn===1?"left:1px;right:50%":"left:50%;right:1px"):"left:2px;right:2px";
-      s+='<div class="'+cls+'" style="top:'+top+"px;height:"+ht+"px;"+side+'" title="'+(BOTH?NAME[x.who]+" · ":"")+x.title+" "+x.s+"–"+x.e+(x.place?" · "+x.place:"")+'"><b>'+shortName(x.title)+"</b>"+'<span>'+x.s+"</span>"+"</div>";
+      s+='<div class="'+cls+'" style="top:'+top+"px;height:"+ht+"px;"+side+'" title="'+(BOTH?NAME[x.who]+" · ":"")+x.title+" "+x.s+"–"+x.e+(x.place?" · "+x.place:"")+'"><b>'+shortName(x.title)+"</b>"+'<span>'+((!BOTH&&ht>=30)?(x.s+"–"+x.e):x.s)+"</span>"+"</div>";
     });
     html+=s+"</div>";
   }
