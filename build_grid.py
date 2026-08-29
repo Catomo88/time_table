@@ -85,6 +85,7 @@ def grid_sheet(who):
         ws.column_dimensions[chr(64+j)].width=17
     ws.print_area=f"A1:{chr(64+1+len(DAYS))}{2+NROWS}"
     ws.page_setup.orientation="landscape"
+    ws.page_setup.paperSize=9
     ws.page_setup.fitToWidth=1; ws.page_setup.fitToHeight=1
     ws.sheet_properties.pageSetUpPr.fitToPage=True
     ws.page_margins.left=ws.page_margins.right=0.3
@@ -107,7 +108,7 @@ def combo_sheet():
     t.font=Font(name=KFONT,bold=True,size=16,color="FFFFFF")
     t.fill=PatternFill("solid",fgColor="404040"); t.alignment=Alignment("center","center")
     ws.merge_cells(start_row=1,start_column=1,end_row=1,end_column=NC)
-    ws.row_dimensions[1].height=28
+    ws.row_dimensions[1].height=22
     hc=ws.cell(2,1,"시간"); hc.font=Font(name=KFONT,bold=True,color="FFFFFF")
     hc.fill=PatternFill("solid",fgColor="595959"); hc.alignment=Alignment("center","center"); hc.border=border
     ws.merge_cells(start_row=2,start_column=1,end_row=3,end_column=1)
@@ -119,15 +120,15 @@ def combo_sheet():
         for j,(nm,col) in enumerate([("서원",HEAD["첫째"]),("서준",HEAD["둘째"])]):
             sc=ws.cell(3,c1+j,nm); sc.font=Font(name=KFONT,bold=True,color="FFFFFF",size=9)
             sc.fill=PatternFill("solid",fgColor=col); sc.alignment=Alignment("center","center"); sc.border=border
-    ws.row_dimensions[2].height=18; ws.row_dimensions[3].height=15
+    ws.row_dimensions[2].height=15; ws.row_dimensions[3].height=13
     R0=4
     for i in range(NROWS):
         r=R0+i; m=GS+i*STEP
         lab=f"{m//60:02d}:{m%60:02d}" if m%30==0 else ""
-        c=ws.cell(r,1,lab); c.font=Font(name=KFONT,size=8,bold=(m%60==0),color="555555")
+        c=ws.cell(r,1,lab); c.font=Font(name=KFONT,size=6.5,bold=(m%60==0),color="555555")
         c.alignment=Alignment("center","center"); c.border=border
         c.fill=PatternFill("solid",fgColor="EFEFEF" if m%60==0 else "F7F7F7")
-        ws.row_dimensions[r].height=15
+        ws.row_dimensions[r].height=11.5
         for j in range(2,2+len(DAYS)*2):
             ws.cell(r,j).border=border
     for row in S:
@@ -142,21 +143,23 @@ def combo_sheet():
         for r in range(sr,er+1):
             cell=ws.cell(r,col); cell.fill=PatternFill("solid",fgColor=FILL[cat])
         top=ws.cell(sr,col)
-        top.value=f"{title}\n{st}"
-        top.font=Font(name=KFONT,size=8,bold=True,color=TXT[cat])
+        top.value=f"{title}\n{st}–{en}"
+        _dur=em-sm
+        top.font=Font(name=KFONT,size=(6.5 if _dur<=30 else 7.5),bold=True,color=TXT[cat])
         top.alignment=Alignment("center","center",wrap_text=True)
         if er>sr: ws.merge_cells(start_row=sr,start_column=col,end_row=er,end_column=col)
         for r in range(sr,er+1):
             ws.cell(r,col).border=Border(left=med,right=med,top=med if r==sr else thin,bottom=med if r==er else thin)
-    ws.column_dimensions["A"].width=7
+    ws.column_dimensions["A"].width=5.5
     for j in range(2,2+len(DAYS)*2):
-        ws.column_dimensions[get_column_letter(j)].width=9.5
+        ws.column_dimensions[get_column_letter(j)].width=9.8
     ws.print_area=f"A1:{get_column_letter(NC)}{R0+NROWS-1}"
     ws.page_setup.orientation="landscape"
     ws.page_setup.fitToWidth=1; ws.page_setup.fitToHeight=1
     ws.sheet_properties.pageSetUpPr.fitToPage=True
-    ws.page_margins.left=ws.page_margins.right=0.25
-    ws.page_margins.top=ws.page_margins.bottom=0.35
+    ws.page_margins.left=ws.page_margins.right=0.18
+    ws.page_margins.top=ws.page_margins.bottom=0.22
+    ws.page_setup.paperSize=9
     ws.freeze_panes="B4"
 
 combo_sheet()

@@ -348,8 +348,8 @@
   "title": "한글수업",
   "cat": "학원",
   "place": "집 (과외)",
-  "assumed": true,
-  "note": "추정"
+  "assumed": false,
+  "note": ""
  },
  {
   "who": "첫째",
