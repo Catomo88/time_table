@@ -4,7 +4,7 @@ import json, cairosvg
 NAME="서원"; WHO="첫째"; F="Noto Sans CJK KR"
 DAYS=["월","화","수","목","금","토","일"]
 ACC="#3B4CB8"; INK="#23262D"; MUT="#8B8F98"
-COL={"학원":"#3B4CB8","방과후":"#7C8BD9","기타":"#A9B0BF"}
+COL={"학원":"#3B4CB8","방과후":"#5D6FC9","기타":"#8D95A6"}
 SHORT={"방과후 아나운서":"아나운서","방과후 큐보로봇":"큐보로봇","맞춤형 종이접기":"종이접기",
        "한글수업":"한글","영어수업":"영어","미술학원":"미술"}
 S=[x for x in json.load(open("schedule.json",encoding="utf-8")) if x["who"]==WHO]
@@ -46,7 +46,7 @@ def landscape(W=72.0,H=45.0,ox=0,oy=0):
        f'<rect width="{W}" height="{H}" rx="2.2" fill="#FFFFFF" stroke="#D6D9E0" stroke-width="0.3"/>',
        f'<path d="M0 6.6 L{W} 6.6 L{W} 2.2 A2.2 2.2 0 0 0 {W-2.2} 0 L2.2 0 A2.2 2.2 0 0 0 0 2.2 Z" fill="{ACC}"/>',
        f'<text x="2.6" y="4.6" font-family="{F}" font-size="3.2" font-weight="bold" fill="#FFFFFF">{NAME} 주간 시간표</text>',
-       f'<text x="{W-2.6}" y="4.5" font-family="{F}" font-size="2.1" fill="#C6CDF0" text-anchor="end">등교 08:20</text>']
+       f'<text x="{W-2.6}" y="4.5" font-family="{F}" font-size="2.2" font-weight="bold" fill="#E4E9FB" text-anchor="end">등교 08:20</text>']
     top=8.2; rowh=5.15
     for i,d in enumerate(DAYS):
         y=top+i*rowh
@@ -54,17 +54,17 @@ def landscape(W=72.0,H=45.0,ox=0,oy=0):
             o.append(f'<rect x="1.5" y="{y-0.2:.2f}" width="{W-3}" height="{rowh-0.45:.2f}" rx="0.9" fill="#F5F6FA"/>')
         o.append(f'<text x="2.9" y="{y+3.3:.2f}" font-family="{F}" font-size="3.0" font-weight="bold" fill="{"#C0392B" if i>4 else INK}">{d}</text>')
         s=sch(d)
-        o.append(f'<text x="6.4" y="{y+3.3:.2f}" font-family="{F}" font-size="2.1" fill="{MUT}">{s["e"] if s else "—"}</text>')
+        o.append(f'<text x="6.4" y="{y+3.3:.2f}" font-family="{F}" font-size="2.2" font-weight="bold" fill="#5A5F68">{s["e"] if s else "—"}</text>')
         x=17.0
         for it in acts(d):
             label=nm(it); c=COL.get(it["cat"],COL["기타"])
             pl=it["place"] if (it.get("place") and it["cat"]=="방과후") else ""
             sub=it["s"]+((" "+pl) if pl else "")
-            bw=max(wid(label,2.35),(wid(it["s"],1.8)+(wid(pl,1.95)+1.4 if pl else 0))*1.2)+2.4
+            bw=max(wid(label,2.35),(wid(it["s"],1.9)+(wid(pl,2.0)+1.4 if pl else 0))*1.2)+2.4
             if x+bw>W-2.4: break
             o.append(f'<rect x="{x:.2f}" y="{y+0.25:.2f}" width="{bw:.2f}" height="4.4" rx="0.8" fill="{c}"/>')
             o.append(f'<text x="{x+bw/2:.2f}" y="{y+2.25:.2f}" font-family="{F}" font-size="2.35" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{label}</text>')
-            o.append(f'<text x="{x+bw/2:.2f}" y="{y+4.3:.2f}" font-family="{F}" font-size="1.8" fill="#DCE2F7" text-anchor="middle">{it["s"]}<tspan dx="0.7" fill="#FFE9A8" font-weight="bold">{pl}</tspan></text>')
+            o.append(f'<text x="{x+bw/2:.2f}" y="{y+4.3:.2f}" font-family="{F}" font-size="1.9" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{it["s"]}<tspan dx="0.7" fill="#FFD966" font-weight="bold">{pl}</tspan></text>')
             x+=bw+0.8
         if not acts(d):
             o.append(f'<text x="17.0" y="{y+3.3:.2f}" font-family="{F}" font-size="2.2" fill="#C3C6CD">일정 없음</text>')
@@ -90,8 +90,6 @@ def sheet(name,W,H,fn,cols,rows):
     svg=f'<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 210 297">{"".join(p)}</svg>'
     cairosvg.svg2pdf(bytestring=svg.encode(),write_to=f"{name}.pdf")
 
-out("서원_카드_세로45x72",45,72,portrait())
-out("서원_카드_가로72x45",72,45,landscape())
-sheet("서원_카드_세로_A4인쇄",45,72,portrait,4,3)
-sheet("서원_카드_가로_A4인쇄",72,45,landscape,2,5)
+out("서원_카드_72x45",72,45,landscape())
+sheet("서원_카드_A4인쇄",72,45,landscape,2,5)
 print("완료")
