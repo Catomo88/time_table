@@ -58,11 +58,12 @@ def landscape(W=72.0,H=45.0,ox=0,oy=0):
         x=17.0
         for it in acts(d):
             label=nm(it); c=COL.get(it["cat"],COL["기타"])
-            bw=max(wid(label,2.35),wid(it["s"],1.95))+1.9
+            sub=it["s"]+((" "+it["place"]) if it.get("place") and it["cat"]=="방과후" else "")
+            bw=max(wid(label,2.35),wid(sub,1.95))+1.9
             if x+bw>W-2.4: break
             o.append(f'<rect x="{x:.2f}" y="{y+0.25:.2f}" width="{bw:.2f}" height="4.4" rx="0.8" fill="{c}"/>')
             o.append(f'<text x="{x+bw/2:.2f}" y="{y+2.25:.2f}" font-family="{F}" font-size="2.35" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{label}</text>')
-            o.append(f'<text x="{x+bw/2:.2f}" y="{y+4.3:.2f}" font-family="{F}" font-size="1.95" fill="#DCE2F7" text-anchor="middle">{it["s"]}</text>')
+            o.append(f'<text x="{x+bw/2:.2f}" y="{y+4.3:.2f}" font-family="{F}" font-size="1.95" fill="#DCE2F7" text-anchor="middle">{sub}</text>')
             x+=bw+0.8
         if not acts(d):
             o.append(f'<text x="17.0" y="{y+3.3:.2f}" font-family="{F}" font-size="2.2" fill="#C3C6CD">일정 없음</text>')

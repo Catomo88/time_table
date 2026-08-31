@@ -127,7 +127,7 @@
   "e": "15:10",
   "title": "방과후 큐보로봇",
   "cat": "방과후",
-  "place": "학교",
+  "place": "과학실1",
   "assumed": false,
   "note": ""
  },
@@ -171,7 +171,7 @@
   "e": "14:20",
   "title": "맞춤형 종이접기",
   "cat": "방과후",
-  "place": "학교",
+  "place": "1-6",
   "assumed": false,
   "note": "무료"
  },
@@ -358,7 +358,7 @@
   "e": "14:20",
   "title": "방과후 아나운서",
   "cat": "방과후",
-  "place": "학교",
+  "place": "1-9",
   "assumed": false,
   "note": ""
  },
