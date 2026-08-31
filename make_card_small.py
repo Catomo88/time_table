@@ -60,11 +60,11 @@ def landscape(W=72.0,H=45.0,ox=0,oy=0):
             label=nm(it); c=COL.get(it["cat"],COL["기타"])
             pl=it["place"] if (it.get("place") and it["cat"]=="방과후") else ""
             sub=it["s"]+((" "+pl) if pl else "")
-            bw=max(wid(label,2.35),(wid(it["s"],1.9)+(wid(pl,2.0)+1.4 if pl else 0))*1.2)+2.4
+            bw=max(wid(label,2.35),(wid(it["s"],1.9)+(wid(pl,1.9) if pl else 0))*1.3)+(5.4 if pl else 2.4)
             if x+bw>W-2.4: break
             o.append(f'<rect x="{x:.2f}" y="{y+0.25:.2f}" width="{bw:.2f}" height="4.4" rx="0.8" fill="{c}"/>')
             o.append(f'<text x="{x+bw/2:.2f}" y="{y+2.25:.2f}" font-family="{F}" font-size="2.35" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{label}</text>')
-            o.append(f'<text x="{x+bw/2:.2f}" y="{y+4.3:.2f}" font-family="{F}" font-size="1.9" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{it["s"]}<tspan dx="0.7" fill="#FFD966" font-weight="bold">{pl}</tspan></text>')
+            o.append(f'<text x="{x+bw/2:.2f}" y="{y+4.3:.2f}" font-family="{F}" font-size="1.9" font-weight="bold" fill="#FFFFFF" text-anchor="middle">{it["s"]}<tspan dx="0.8" font-size="1.75" fill="#FFD966" font-weight="bold">{pl}</tspan></text>')
             x+=bw+0.8
         if not acts(d):
             o.append(f'<text x="17.0" y="{y+3.3:.2f}" font-family="{F}" font-size="2.2" fill="#C3C6CD">일정 없음</text>')
