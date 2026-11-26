@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>우리집 일정</title>
 <style>
-:root{--ink:#1C1F26;--mut:#878C96;--line:#E6E8EC;--k1:#2F6BDF;--k2:#C4661F;--wk:#7B53C6}
+:root{--ink:#1C1F26;--mut:#6B7078;--line:#E6E8EC;--k1:#9C4C98;--k2:#173F78;--wk:#7B53C6}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",Arial,sans-serif;background:#F4F5F7;color:var(--ink);-webkit-font-smoothing:antialiased}
 .wrap{max-width:600px;margin:0 auto;padding:18px 14px 36px}
@@ -26,12 +26,12 @@ h1{font-size:19px;font-weight:800;letter-spacing:-.02em}
 .hm .b{font-size:11px;color:var(--mut);margin-top:2px}
 .tdp{margin-left:auto;font-size:11px;font-weight:700;color:#fff;background:var(--k1);padding:4px 10px;border-radius:99px}
 .stat{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.st{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:8px;background:#F0F4FD;color:var(--k1)}
+.st{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:8px;background:#F3E6F2;color:var(--k1)}
 .st.now{background:#FDEEEE;color:#D64545}
 .row{display:grid;grid-template-columns:44px 42px 1fr;gap:8px;padding:7px 8px;border-radius:10px;align-items:baseline}
 .row .t{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
 .kt{font-size:11px;font-weight:700;text-align:center;border-radius:6px;padding:2px 0}
-.kt1{color:var(--k1);background:#EBF1FC}.kt2{color:var(--k2);background:#FBEFE3}
+.kt1{color:var(--k1);background:#F3E6F2}.kt2{color:var(--k2);background:#E4EDF8}
 .row .ti{font-size:13.5px;font-weight:700;word-break:keep-all}
 .row .sub{font-size:11px;color:var(--mut);margin-top:1px}
 .row.past{opacity:.4}
@@ -95,7 +95,7 @@ summary{font-size:12px;color:var(--k1);cursor:pointer;font-weight:700}
     <span class="seg"><button id="mw" class="on" onclick="setMode('week')">이번 주</button><button id="mb" onclick="setMode('base')">기본</button></span>
   </div>
   <div class="wkbar" id="wkbar"></div>
-  <div class="nav"><a class="pri" href="시간표_주간전체.html">주간 시간표</a><a href="시간표.xlsx">인쇄용 엑셀</a></div>
+  <div class="nav"><a class="pri" href="시간표_주간전체.html">주간 시간표</a><a href="우리집_주간표_A4.pdf">인쇄용 A4</a></div>
   <div id="events"></div>
   <div id="hero"></div>
   <p class="sec">다가오는 요일</p>
