@@ -272,9 +272,9 @@ PORTRAIT_CSS = """
 .legend{left:5mm;right:5mm;height:6.6mm;padding-top:1.1mm;gap:3.6mm;font-size:7.5pt;}
 .legend .sw{width:8mm;height:4mm;}
 .legend .end{margin-left:auto;}
-.pill.v{border:0.5pt solid var(--ink-3);padding:0;gap:0.2mm;flex-direction:column;align-items:center;justify-content:center;}
-.pill.v .k{font-size:7pt;font-weight:600;color:var(--ink-2);}
-.pill.v .t{font-size:11pt;font-weight:800;}
+.hg{background:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;line-height:1;
+  white-space:nowrap;letter-spacing:-0.02em;z-index:2;}
+.hg.lite{font-weight:600;}
 .fold{background:#ECECEC;display:flex;align-items:center;justify-content:center;
   font-size:7.5pt;font-weight:600;color:var(--ink-2);letter-spacing:0.02em;white-space:nowrap;}
 .chip.v{justify-content:flex-start;padding:0.45mm 0.9mm;white-space:nowrap;}
@@ -353,6 +353,22 @@ def axis_info(days):
         vis.append((c, g0)); c = g1
     vis.append((c, a_end))
     return a_start, a_end, m_start, vis
+
+def _fit(text, maxw, sizes=(11, 10.5, 10, 9.5, 9, 8.5, 8), wght=800):
+    for pt in sizes:
+        if tw(text, pt, wght, -0.02) <= maxw:
+            return pt
+    return sizes[-1]
+
+def school_marks(k, x, y1, y2, W, word, ins, lab):
+    """학교·유치원 빗금 블록의 등·하교 표시 = 위·아래 칸 너비 흰 띠(아래 띠는 굵은 끝선)."""
+    t = f"{word} {hm(ins['E'])}"
+    pt = _fit(t, W - 1.2)
+    pt2 = min(_fit(lab, W - 1.2, wght=600), 9)
+    return [div("hg", x, y2 - 6.0, W, 5.7, f"<span>{esc(t)}</span>",
+                f"font-size:{pt}pt;border-top:1pt solid var(--ink);border-bottom:2pt solid var(--ink)"),
+            div("hg lite", x, y1 + 0.3, W, 4.8, f"<span>{esc(lab)}</span>",
+                f"font-size:{pt2}pt;border-bottom:1pt solid var(--ink)")]
 
 def build_c(days_all, empty):
     X0, X1 = 5.0, 205.0
@@ -503,14 +519,10 @@ def build_c(days_all, empty):
                 out.append(div(f"inst {k}", x, y1 + 0.3, LANE_W, y2 - y1 - 0.6, hatch_svg(LANE_W, y2 - y1 - 0.6),
                                "border-left:0.5pt solid var(--ink-3);border-right:0.5pt solid var(--ink-3)"))
                 word = "하원" if "유치원" in ins["title"] else "하교"
-                pw = max(tw(hm(ins["E"]), 11, 800, -0.02), tw(word, 7, 600)) + 2.0
-                out.append(div(f"pill v {k}", x + (LANE_W - pw) / 2, y2 - 8.0, pw, 7.2,
-                               f'<span class="k">{word}</span><span class="t">{hm(ins["E"])}</span>'))
                 first = l["pick"][0] if l["pick"] else None
                 lab = (f'{first["title"]} {hm(first["S"])}' if first
                        else f'{"등원" if word == "하원" else "등교"} {hm(ins["S"])}')
-                tagw = min(tw(lab, 7.5, 600) + 2.6, LANE_W - 0.6)
-                out.append(div(f"tag {k}", x + 0.3, y1 + 1.0, tagw, 4.2, esc(lab), "display:flex;align-items:center"))
+                out.extend(school_marks(k, x, y1, y2, LANE_W, word, ins, lab))
             for a in l["acts"]:
                 y1, y2 = vspan(a, l)
                 h = y2 - y1

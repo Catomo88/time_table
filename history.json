@@ -1041,5 +1041,96 @@
    }
   ],
   "by": "수동 반영"
+ },
+ {
+  "time": "2026-11-26 21:00",
+  "requests": [
+   "서준 축구 토요일 12:30으로, 서원 화상영어 월화목금 20분씩"
+  ],
+  "base": {
+   "added": 4,
+   "removed": 2,
+   "updated": 1
+  },
+  "week": {
+   "key": "",
+   "ops": 0
+  },
+  "ops": [
+   {
+    "op": "update",
+    "scope": "base",
+    "match": {
+     "who": "둘째",
+     "title": "축구"
+    },
+    "set": {
+     "day": "토",
+     "s": "12:30",
+     "e": "13:00"
+    }
+   },
+   {
+    "op": "add",
+    "scope": "base",
+    "item": {
+     "who": "첫째",
+     "day": "월",
+     "s": "19:00",
+     "e": "19:20",
+     "title": "화상영어",
+     "cat": "학원",
+     "place": "온라인",
+     "assumed": false,
+     "note": ""
+    }
+   },
+   {
+    "op": "add",
+    "scope": "base",
+    "item": {
+     "who": "첫째",
+     "day": "화",
+     "s": "19:00",
+     "e": "19:20",
+     "title": "화상영어",
+     "cat": "학원",
+     "place": "온라인",
+     "assumed": false,
+     "note": ""
+    }
+   },
+   {
+    "op": "add",
+    "scope": "base",
+    "item": {
+     "who": "첫째",
+     "day": "목",
+     "s": "19:00",
+     "e": "19:20",
+     "title": "화상영어",
+     "cat": "학원",
+     "place": "온라인",
+     "assumed": false,
+     "note": ""
+    }
+   },
+   {
+    "op": "add",
+    "scope": "base",
+    "item": {
+     "who": "첫째",
+     "day": "금",
+     "s": "19:00",
+     "e": "19:20",
+     "title": "화상영어",
+     "cat": "학원",
+     "place": "온라인",
+     "assumed": false,
+     "note": ""
+    }
+   }
+  ],
+  "by": "수동 반영"
  }
 ]

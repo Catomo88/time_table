@@ -46,8 +46,8 @@ body{font-family:var(--font);color:var(--ink);font-variant-numeric:tabular-nums;
 .row{position:absolute;left:1.6mm;right:1.6mm;display:flex;align-items:stretch;}
 .day{width:4.2mm;flex:none;font-size:9.5pt;font-weight:900;line-height:1;display:flex;align-items:center;}
 .day.wk{font-size:8pt;width:13.4mm;letter-spacing:-0.04em;}
-.sch{flex:none;width:8.6mm;margin-right:0.6mm;display:flex;align-items:stretch;border:0.4pt solid var(--ink-3);border-radius:1mm;overflow:hidden;}
-.sch .hx{width:1.5mm;flex:none;position:relative;overflow:hidden;border-right:0.4pt solid var(--ink-3);}
+.sch{flex:none;width:8.6mm;margin-right:0.6mm;display:flex;align-items:stretch;border-top:0.6pt solid var(--ink);border-bottom:1.4pt solid var(--ink);overflow:hidden;}
+.sch .hx{width:1.5mm;flex:none;position:relative;overflow:hidden;border-right:0.4pt solid var(--ink-3);border-left:0.4pt solid var(--ink-3);}
 .sch .tx{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;line-height:1;}
 .sch .k{font-size:6.5pt;font-weight:500;color:var(--ink-2);}
 .sch .v{font-size:6.5pt;font-weight:800;margin-top:0.25mm;letter-spacing:-0.02em;}
