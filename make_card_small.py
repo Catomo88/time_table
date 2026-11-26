@@ -5,7 +5,7 @@ NAME="서원"; WHO="첫째"; F="Noto Sans CJK KR"
 DAYS=["월","화","수","목","금","토","일"]
 ACC="#3B4CB8"; INK="#23262D"; MUT="#8B8F98"
 COL={"학원":"#3B4CB8","방과후":"#5D6FC9","기타":"#8D95A6"}
-SHORT={"방과후 아나운서":"아나운서","방과후 큐보로봇":"큐보로봇","맞춤형 종이접기":"종이접기",
+SHORT={"방과후 아나운서":"아나운서","방과후 큐보로봇":"큐보로봇","맞춤형 종이접기":"종이접기","방과후 창의과학":"창의과학",
        "한글수업":"한글","영어수업":"영어","미술학원":"미술"}
 S=[x for x in json.load(open("schedule.json",encoding="utf-8")) if x["who"]==WHO]
 def acts(d): return sorted([x for x in S if x["day"]==d and x["cat"] not in ("정규수업","돌봄/픽업")],key=lambda r:r["s"])
