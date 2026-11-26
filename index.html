@@ -182,7 +182,7 @@ function draw(){
   var wkDay={};WOPS.forEach(function(o){var x=(o.match||o.item||{});if(x.day)wkDay[x.day]=1});
   var list="";
   for(var i=1;i<7;i++){
-    var d=(TD+i)%7,items=byDay(e,d,false),dt=dOf(d);
+    var d=(TD+i)%7,items=byDay(e,d,false),dt=dOf(TD+i);
     var lines=["첫째","둘째"].map(function(w){
       var k=w==="첫째"?1:2;
       var mine=items.filter(function(o){return o.a.who===w&&o.a.cat!=="care"});
